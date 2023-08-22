@@ -6,10 +6,10 @@ namespace CarFleet_Project.Controllers;
 
 [Route("api/vehicle")]
 [ApiController]
-public class VehicleController : ControllerBase
+public class AdminVehicleController : ControllerBase
 {
     IVehicleContext _ctx;
-    public VehicleController(IVehicleContext ctx)
+    public AdminVehicleController(IVehicleContext ctx)
     {
         _ctx = ctx;
     }

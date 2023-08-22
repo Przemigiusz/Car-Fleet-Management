@@ -7,5 +7,7 @@ namespace CarFleet_Project.Models
         DbSet<Vehicle> Vehicles { get; set; }
 
         int SaveChanges();
+
+        IQueryable<Vehicle> GetAll();
     }
 }

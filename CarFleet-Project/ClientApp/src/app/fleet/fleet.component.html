@@ -1,0 +1,181 @@
+<section class="container-fluid mt-5">
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <div class="row">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-6 align-content-start">
+                  <p class="h5">Filter</p>
+                </div>
+                <div class="col-6 align-content-end">
+                  <button type="button" class="btn btn-link ms-auto me-0">Wyczyść wszystkie filtry</button>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="col-12">
+              <div class="row">
+                <div class="col">
+                  <p class="h5">Sortuj</p>
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>Wybierz typ</option>
+                    <option value="1">Cena za dzień: od najniższej</option>
+                    <option value="2">Cena za dzień: od najwyższej</option>
+                    <option value="3">Najniższa moc silnika</option>
+                    <option value="4">Najwyższa moc silnika</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="col-12">
+              <div class="row">
+                <h5>Marka/Model</h5>
+                <div class="col-12">
+                  <label for="BrandDataList" class="form-label">Brand</label>
+                  <input class="form-control" list="BrandDatalistOptions" id="BrandDataList" placeholder="Brand">
+                  <datalist id="BrandDatalistOptions">
+                  </datalist>
+                </div>
+                <div class="col-12">
+                  <label for="ModelDataList" class="form-label">Model</label>
+                  <input class="form-control" list="ModelDatalistOptions" id="ModelDataList" placeholder="Model">
+                  <datalist id="ModelDatalistOptions">
+                  </datalist>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="col-12">
+              <h5>Rodzaj Paliwa</h5>
+              <div class="row">
+                <div class="col m-1">
+                  <input type="checkbox" class="btn-check" id="gasolineBtn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="gasolineBtn">Benzyna</label>
+                </div>
+                <div class="col m-1">
+                  <input type="checkbox" class="btn-check" id="dieselBtn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="dieselBtn">Diesel</label>
+                </div>
+                <div class="col m-1">
+                  <input type="checkbox" class="btn-check" id="electricBtn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="electricBtn">Elektryczny</label>
+                </div>
+                <div class="col m-1">
+                  <input type="checkbox" class="btn-check" id="lpgBtn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="lpgBtn">LPG</label>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="col-12">
+              <h5>Cena Za Dzień</h5>
+              <div class="row">
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="200Btn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="200Btn">PLN 0 - PLN 200</label>
+                </div>
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="400Btn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="400Btn">PLN 200 - PLN 400</label>
+                </div>
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="600Btn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="600Btn">PLN 400 - PLN 600</label>
+                </div>
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="800Btn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="800Btn">PLN 600 - PLN 800</label>
+                </div>
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="Above800Btn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="Above800Btn">PLN 800 +</label>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="col-12">
+              <h5>Typ Nadwozia</h5>
+              <div class="row">
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="Coupe" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="Coupe">Coupe</label>
+                </div>
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="Cabriolet" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="cabriolet">Kabriolet</label>
+                </div>
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="Combi" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="Combi">Kombi</label>
+                </div>
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="Compact" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="Compact">Kompakt</label>
+                </div>
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="Minivan" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="Minivan">Minivan</label>
+                </div>
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="Sedan" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="Sedan">Sedan</label>
+                </div>
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="SUV" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="SUV">SUV</label>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="col-12">
+              <h5>Skrzynia Biegów</h5>
+              <div class="row">
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="Manual" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="Manual">Manualna</label>
+                </div>
+                <div class="col-12 m-1">
+                  <input type="checkbox" class="btn-check" id="Automatic" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="Automatic">Automat</label>
+                </div>
+              </div>
+            </div>
+            <hr />
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="row">
+              <div class="col-12">
+                <img [src]="mainBanner" class="w-100" alt="main banner" />
+              </div>
+          </div>
+          <div class="row" *ngFor="let vehicle of data">
+            <div class="col-12 card mb-3">
+              <div class="row">
+                <div class="col-3">
+                  <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+                </div>
+                <div class="col-9">
+                  <div class="row">
+                    <div class="col-12">
+                      <h5 class="card-title">{{vehicle.brand}} {{vehicle.model}}</h5>
+                    </div>
+                    <div class="col-12 mt-2">
+                      <h6 class="card-title">{{vehicle.yearOfProduction}} {{vehicle.mileage}} {{vehicle.fuelType}}</h6>
+                    </div>
+                    <div class="col-12 mt-2">
+                      <h6 class="card-title">{{vehicle.doorsAmount}} {{vehicle.carBodyType}}</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

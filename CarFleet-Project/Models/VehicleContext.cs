@@ -14,5 +14,9 @@ namespace CarFleet_Project.Models
         {
             return base.SaveChanges();
         }
+
+        public IQueryable<Vehicle> GetAll() {
+            return Vehicles;
+        }
     }
 }

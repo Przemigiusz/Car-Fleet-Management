@@ -44,7 +44,7 @@ export class NewCarComponent implements OnInit {
       newVehicle.doorsAmount = formData.doorsAmount;
       newVehicle.carBodyType = formData.carBodyType;
       this.addCarService.addCar(newVehicle).subscribe(
-        r => { debugger },
+        r => { console.log("sukces") }, //r => { debugger }
         err => { console.log("błąd") });
     }
     else {

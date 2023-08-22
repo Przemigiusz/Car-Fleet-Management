@@ -9,8 +9,11 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { FooterMenuComponent } from './footer-menu/footer-menu.component';
-import { NewCarComponent } from './new-car-form/new-car.component';
+import { NewCarComponent } from './new-car-form/new-car.component'; 
+import { FleetComponent } from './fleet/fleet.component';
+
 import { AddCarService } from '../services/add-car.service';
+import { GetCarsService } from '../services/get-cars.service';
 
 
 @NgModule({
@@ -20,6 +23,7 @@ import { AddCarService } from '../services/add-car.service';
     HomeComponent,
     FooterMenuComponent,
     NewCarComponent,
+    FleetComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -29,9 +33,10 @@ import { AddCarService } from '../services/add-car.service';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'new-car', component: NewCarComponent, pathMatch: 'full' },
+      { path: 'fleet', component: FleetComponent, pathMatch: 'full' },
     ])
   ],
-  providers: [AddCarService],
+  providers: [AddCarService, GetCarsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
