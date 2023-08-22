@@ -94,8 +94,20 @@ a.nav-link {
   .navContainer {
     justify-content: start!important;
   }
+  a.nav-link {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
 }
 
+.nav-link {
+  transition: text-decoration 2s;
+  transition: transform 0.7s;
+}
 
+.nav-link:hover {
+  text-decoration: underline;
+  transform: translateY(-3px);
+}
 
 

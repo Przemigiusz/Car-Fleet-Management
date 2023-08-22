@@ -3,22 +3,32 @@
     <div class="container-fluid navContainer justify-content-center">
       <div class="row justify-content-center">
         <div class="col-8 w-100">
-          <img [src]="logoUrl" alt="logo" />
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-            <div class="navbar-nav">
-              <a class="nav-link start" aria-current="page" href="#">START</a>
-              <a class="nav-link" href="#">PROMOCJE</a>
-              <a class="nav-link" href="#">Krok po kroku</a>
-              <a class="nav-link" href="#">Ceny</a>
-              <a class="nav-link" href="#">Flota</a>
-              <a class="nav-link" href="#">Gdzie jesteśmy</a>
-              <a class="nav-link" href="#">Dla Firm</a>
-              <a class="nav-link" href="#">KONTAKT I PYTANIA</a>
-              <a class="nav-link" href="#">Rent a Car</a>
-              <a class="nav-link new-app" href="#">NOWA APLIKACJA</a>
+          <div class="row">
+            <div class="col">
+              <img [src]="logoUrl" alt="logo" />
+            </div>
+            <div class="col">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+            </div>          
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                <div class="navbar-nav">
+                  <a class="nav-link start" aria-current="page" href="#">START</a>
+                  <a class="nav-link" href="#">PROMOCJE</a>
+                  <a class="nav-link" href="#">Krok po kroku</a>
+                  <a class="nav-link" href="#">Ceny</a>
+                  <a class="nav-link" href="#">Flota</a>
+                  <a class="nav-link" href="#">Gdzie jesteśmy</a>
+                  <a class="nav-link" href="#">Dla Firm</a>
+                  <a class="nav-link" href="#">KONTAKT I PYTANIA</a>
+                  <a class="nav-link" [routerLink]="['new-car']">Rent a Car</a>
+                  <a class="nav-link new-app" href="#">NOWA APLIKACJA</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

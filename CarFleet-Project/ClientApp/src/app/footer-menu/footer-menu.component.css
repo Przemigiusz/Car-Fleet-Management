@@ -76,3 +76,11 @@ a.nav-link {
     border-top-color: #7743DB;
   }
 }
+
+.nav-link {
+  transition: transform 0.3s;
+}
+
+.nav-link:hover {
+  transform: translateY(-1px);
+}
