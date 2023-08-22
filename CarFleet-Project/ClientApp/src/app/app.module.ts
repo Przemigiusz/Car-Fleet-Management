@@ -10,6 +10,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { FooterMenuComponent } from './footer-menu/footer-menu.component';
 import { NewCarComponent } from './new-car-form/new-car.component';
+import { AddCarService } from '../services/add-car.service';
 
 
 @NgModule({
@@ -19,7 +20,6 @@ import { NewCarComponent } from './new-car-form/new-car.component';
     HomeComponent,
     FooterMenuComponent,
     NewCarComponent,
-
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -31,7 +31,7 @@ import { NewCarComponent } from './new-car-form/new-car.component';
       { path: 'new-car', component: NewCarComponent, pathMatch: 'full' },
     ])
   ],
-  providers: [],
+  providers: [AddCarService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

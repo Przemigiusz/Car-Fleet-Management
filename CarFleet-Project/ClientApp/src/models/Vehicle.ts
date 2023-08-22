@@ -1,4 +1,5 @@
 export class Vehicle {
+  vehicleId: number = 0;
   brand: string = '';
   model: string = '';
   yearOfProduction: string = '';

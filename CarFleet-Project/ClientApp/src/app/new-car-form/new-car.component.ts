@@ -11,10 +11,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class NewCarComponent implements OnInit {
   isExpanded = false;
+  addCarForm: FormGroup = new FormGroup({});
 
   constructor(private addCarService: AddCarService,
-              private formBuilder: FormBuilder,
-              private addCarForm: FormGroup) { }
+              private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.initForm();
@@ -34,16 +34,21 @@ export class NewCarComponent implements OnInit {
 
   submitForm() {
     if (this.addCarForm.valid) {
-      const formData: AddCarInterface = this.addCarForm.value; // Użyj interfejsu jako typu
-      const newVehicle: Vehicle = new Vehicle()
-      newVehicle.brand = formData.brand,
-      newVehicle.model = formData.model,
-      newVehicle.yearOfProduction = formData.yearOfProduction,
-      newVehicle.mileage = formData.mileage,
-      newVehicle.fuelType = formData.fuelType,
-      newVehicle.doorsAmount = formData.doorsAmount,
-      newVehicle.carBodyType = formData.carBodyType,
-      this.addCarService.addCar(newVehicle);
+      const formData: AddCarInterface = this.addCarForm.value;
+      const newVehicle: Vehicle = new Vehicle();
+      newVehicle.brand = formData.brand;
+      newVehicle.model = formData.model;
+      newVehicle.yearOfProduction = formData.yearOfProduction;
+      newVehicle.mileage = formData.mileage;
+      newVehicle.fuelType = formData.fuelType;
+      newVehicle.doorsAmount = formData.doorsAmount;
+      newVehicle.carBodyType = formData.carBodyType;
+      this.addCarService.addCar(newVehicle).subscribe(
+        r => { debugger },
+        err => { console.log("błąd") });
+    }
+    else {
+      console.log("Form is not valid!!!");
     }
     
   }

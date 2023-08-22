@@ -1,11 +1,11 @@
 <section class="mt-5 mb-5">
-  <form>
+  <form [formGroup]="addCarForm" (ngSubmit)="submitForm()">
     <div class="container-fluid">
       <div class="row justify-content-center">
         <div class="col-8">
           <div class="mb-3">
             <label for="BrandDataList" class="form-label">Marka</label>
-            <input class="form-control" list="datalistOptions" id="BrandDataList" placeholder="Marka">
+            <input formControlName="brand" class="form-control" list="datalistOptions" id="BrandDataList" placeholder="Marka">
             <datalist id="BrandDatalistOptions">
             </datalist>
           </div>
@@ -13,7 +13,7 @@
         <div class="col-8">
           <div class="mb-3">
             <label for="ModelDataList" class="form-label">Model</label>
-            <input class="form-control" list="datalistOptions" id="ModelDataList" placeholder="Model">
+            <input formControlName="model" class="form-control" list="datalistOptions" id="ModelDataList" placeholder="Model">
             <datalist id="ModelDatalistOptions">
             </datalist>
           </div>
@@ -21,19 +21,19 @@
         <div class="col-8">
           <div class="input-group mb-3">
             <label for="exampleDataList" class="form-label w-100">Rok Produkcji</label>
-            <input type="text" class="form-control" placeholder="Rok produkcji" aria-label="Rok produkcji" aria-describedby="basic-addon1">
+            <input formControlName="yearOfProduction" type="text" class="form-control" placeholder="Rok produkcji" aria-label="Rok produkcji" aria-describedby="basic-addon1">
           </div>
         </div>
         <div class="col-8">
           <div class="input-group mb-3">
             <label for="exampleDataList" class="form-label w-100">Przebieg</label>
-            <input type="text" class="form-control" placeholder="Przebieg" aria-label="Przebieg" aria-describedby="basic-addon1">
+            <input formControlName="mileage" type="text" class="form-control" placeholder="Przebieg" aria-label="Przebieg" aria-describedby="basic-addon1">
           </div>
         </div>
         <div class="col-8">
           <div class="mb-3">
             <label for="FuelDataList" class="form-label">Rodzaj paliwa</label>
-            <input class="form-control" list="datalistOptions" id="FuelDataList" placeholder="Rodzaj paliwa">
+            <input formControlName="fuelType" class="form-control" list="datalistOptions" id="FuelDataList" placeholder="Rodzaj paliwa">
             <datalist id="FuelDatalistOptions">
             </datalist>
           </div>
@@ -41,20 +41,20 @@
         <div class="col-8">
           <div class="input-group mb-3">
             <label for="exampleDataList" class="form-label w-100">Liczba drzwi</label>
-            <input type="text" class="form-control" placeholder="Liczba drzwi" aria-label="Liczba drzwi" aria-describedby="basic-addon1">
+            <input formControlName="doorsAmount" type="text" class="form-control" placeholder="Liczba drzwi" aria-label="Liczba drzwi" aria-describedby="basic-addon1">
           </div>
         </div>
         <div class="col-8">
           <div class="mb-3">
             <label for="CarBodyDataList" class="form-label">Rodzaj nadwozia</label>
-            <input class="form-control" list="datalistOptions" id="CarBodyDataList" placeholder="Rodzaj nadwozia">
+            <input formControlName="carBodyType" class="form-control" list="datalistOptions" id="CarBodyDataList" placeholder="Rodzaj nadwozia">
             <datalist id="CarBodyDatalistOptions">
             </datalist>
           </div>
         </div>
         <div class="col-8 d-flex justify-content-center">
           <button type="submit" class="btn btn-primary w-auto submitBtn">Dodaj pojazd</button>
-        </div>   
+        </div>
       </div>
     </div>
   </form>
