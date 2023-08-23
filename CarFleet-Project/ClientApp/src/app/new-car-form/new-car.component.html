@@ -52,43 +52,11 @@
             </datalist>
           </div>
         </div>
-        <div class="col-8">
-          <div class="row">
-            <div class="col m-1">
-              <input type="checkbox" class="btn-check" id="AirConditioning" autocomplete="off">
-              <label class="btn btn-outline-primary" for="AirConditioning">Klimatyzacja</label>
-            </div>
-            <div class="col m-1">
-              <input type="checkbox" class="btn-check" id="MultimediaSystem" autocomplete="off">
-              <label class="btn btn-outline-primary" for="MultimediaSystem">System Multimedialny</label>
-            </div>
-            <div class="col m-1">
-              <input type="checkbox" class="btn-check" id="BluetoothUSB" autocomplete="off">
-              <label class="btn btn-outline-primary" for="BluetoothUSB">Bluetooth/USB</label>
-            </div>
-            <div class="col m-1">
-              <input type="checkbox" class="btn-check" id="ABS" autocomplete="off">
-              <label class="btn btn-outline-primary" for="ABS">ABS</label>
-            </div>
-            <div class="col m-1">
-              <input type="checkbox" class="btn-check" id="ESP" autocomplete="off">
-              <label class="btn btn-outline-primary" for="ESP">ESP</label>
-            </div>
-            <div class="col m-1">
-              <input type="checkbox" class="btn-check" id="ReverseSensors" autocomplete="off">
-              <label class="btn btn-outline-primary" for="ReverseSensors">Czujniki Cofania</label>
-            </div>
-            <div class="col m-1">
-              <input type="checkbox" class="btn-check" id="HeatedSeats" autocomplete="off">
-              <label class="btn btn-outline-primary" for="HeatedSeats">Ogrzewane Fotele</label>
-            </div>
-            <div class="col m-1">
-              <input type="checkbox" class="btn-check" id="CruiseControl" autocomplete="off">
-              <label class="btn btn-outline-primary" for="CruiseControl">Cruise Control</label>
-            </div>
-            <div class="col m-1">
-              <input type="checkbox" class="btn-check" id="ReverseCamera" autocomplete="off">
-              <label class="btn btn-outline-primary" for="ReverseCamera">Kamera Cofania</label>
+        <div class="col-8 mb-5">
+          <div class="row" >
+            <div class="col-4 mb-2 d-flex justify-content-center" *ngFor="let element of equipment; let i = index">
+              <input type="checkbox" class="btn-check" id="{{element.idFor}}" autocomplete="off" [formControl]="isChecked" (click)="updateValue(element)">
+              <label class="btn btn-outline-primary" for="{{element.idFor}}">{{element.name}}</label>
             </div>
           </div>
         </div>

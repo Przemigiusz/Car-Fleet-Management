@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using CarFleet_Project.Models;
+using CarFleet_Project.Models.Interfaces;
+using CarFleet_Project.Models.Tables;
 
 namespace CarFleet_Project.Controllers;
 
 [Route("api/vehicle")]
 [ApiController]
-public class AdminVehicleController : ControllerBase
+public class FilterController : ControllerBase
 {
     IVehicleContext _ctx;
-    public AdminVehicleController(IVehicleContext ctx)
+    public FilterController(IVehicleContext ctx)
     {
         _ctx = ctx;
     }

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CarFleet_Project.Models
+namespace CarFleet_Project.Models.Tables
 {
     public class Vehicle
     {
@@ -11,7 +11,7 @@ namespace CarFleet_Project.Models
 
         [Column(TypeName = "nvarchar(20)")]
         public string brand { get; set; } = "";
-        
+
         [Column(TypeName = "nvarchar(20)")]
         public string model { get; set; } = "";
 
@@ -29,5 +29,7 @@ namespace CarFleet_Project.Models
 
         [Column(TypeName = "nvarchar(20)")]
         public string carBodyType { get; set; } = "";
+
+        public List<EquipmentElement> equipment { get; set; } = new();
     }
 }

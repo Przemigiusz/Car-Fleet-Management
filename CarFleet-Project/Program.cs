@@ -1,4 +1,5 @@
-using CarFleet_Project.Models;
+using CarFleet_Project.Models.Contexts;
+using CarFleet_Project.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -10,6 +10,7 @@ export class AddCarService {
   constructor(private http: HttpClient) { }
 
   addCar(vehicle: Vehicle): Observable<Vehicle> {
+    console.log("Test");
     return this.http.post<Vehicle>(`${this.baseUrl}`, vehicle);
   }
 }

@@ -30,14 +30,20 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\interfaces\add-car.interface.ts" />
+    <None Remove="ClientApp\src\models\Equipment.ts" />
     <None Remove="ClientApp\src\models\Vehicle.ts" />
     <None Remove="ClientApp\src\services\add-car.service.ts" />
     <None Remove="ClientApp\src\services\get-cars.service.ts" />
+    <None Remove="ClientApp\src\services\get-filters.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\interfaces\add-car.interface.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\Equipment.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\Vehicle.ts" />
+    <TypeScriptCompile Include="ClientApp\src\services\get-filters.service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\services\get-cars.service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

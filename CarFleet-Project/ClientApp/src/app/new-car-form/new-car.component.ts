@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AddCarService } from '../../services/add-car.service';
 import { AddCarInterface } from '../../interfaces/add-car.interface';
 import { Vehicle } from '../../models/Vehicle';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Equipment } from '../../models/Equipment';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'new-car',
@@ -12,9 +13,32 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class NewCarComponent implements OnInit {
   isExpanded = false;
   addCarForm: FormGroup = new FormGroup({});
+  equipment: any = 
+    [
+      { name: "Klimatyzacja", dbName: "Klimatyzacja", isChecked: false, idFor: "AirConditioning"},
+      { name: "System Multimedialny", dbName: "System-Multimedialny", isChecked: false, idFor: "MultimediaSystem"},
+      { name: "Bluetooth/USB", dbName: "Bluetooth/USB", isChecked: false, idFor: "BluetoothUSB"},
+      { name: "ABS", dbName: "ABS", isChecked: false, idFor: "ABS" },
+      { name: "ESP", dbName: "ESP", isChecked: false, idFor: "ESP" },
+      { name: "Czujniki Cofania", dbName: "Czujniki-Cofania", isChecked: false, idFor: "ReverseSensors"},
+      { name: "Ogrzewane Fotele", dbName: "Ogrzewane-Fotele", isChecked: false, idFor: "HeatedSeats"},
+      { name: "Cruise Control ", dbName: "Cruise-Control", isChecked: false, idFor: "CruiseControl"},
+      { name: "Kamera Cofania", dbName: "Kamera-Cofania", isChecked: false, idFor: "ReverseCamera"},
+    ];
+  isChecked: FormControl;
+
+  updateValue(equipmentItem: any) {
+    if (equipmentItem.isChecked === false) {
+      equipmentItem.isChecked = true;
+    } else {
+      equipmentItem.isChecked = false;
+    }
+ };
 
   constructor(private addCarService: AddCarService,
-              private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder) {
+    this.isChecked = new FormControl();
+  }
 
   ngOnInit() {
     this.initForm();
@@ -43,8 +67,13 @@ export class NewCarComponent implements OnInit {
       newVehicle.fuelType = formData.fuelType;
       newVehicle.doorsAmount = formData.doorsAmount;
       newVehicle.carBodyType = formData.carBodyType;
+      for (let el of this.equipment) {
+        if (el.isChecked === true) {
+          newVehicle.equipment.push(el.name);
+        }
+      }
       this.addCarService.addCar(newVehicle).subscribe(
-        r => { console.log("sukces") }, //r => { debugger }
+        r => { debugger }, //r => { debugger } console.log("sukces")
         err => { console.log("błąd") });
     }
     else {

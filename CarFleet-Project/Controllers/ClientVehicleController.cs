@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using CarFleet_Project.Models;
+using CarFleet_Project.Models.Interfaces;
 
 namespace CarFleet_Project.Controllers;
 

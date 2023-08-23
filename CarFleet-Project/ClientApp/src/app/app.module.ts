@@ -14,6 +14,7 @@ import { FleetComponent } from './fleet/fleet.component';
 
 import { AddCarService } from '../services/add-car.service';
 import { GetCarsService } from '../services/get-cars.service';
+import { GetFiltersService } from '../services/get-filters.service';
 
 
 @NgModule({
@@ -36,7 +37,7 @@ import { GetCarsService } from '../services/get-cars.service';
       { path: 'fleet', component: FleetComponent, pathMatch: 'full' },
     ])
   ],
-  providers: [AddCarService, GetCarsService],
+  providers: [AddCarService, GetCarsService, GetFiltersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
