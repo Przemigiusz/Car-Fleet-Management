@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { AddCarService } from '../../services/add-car.service';
+import { GetEquipmentElementsService } from '../../services/get-equipment-elements';
 import { NewCarComponent } from './new-car.component';
 
 @NgModule({
@@ -19,7 +20,7 @@ import { NewCarComponent } from './new-car.component';
       { path: '', component: NewCarComponent, pathMatch: 'full' },
     ])
   ],
-  providers: [AddCarService],
+  providers: [AddCarService, GetEquipmentElementsService],
   bootstrap: []
 })
 export class NewCarModule { }

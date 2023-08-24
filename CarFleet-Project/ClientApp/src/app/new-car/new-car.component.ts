@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AddCarService } from '../../services/add-car.service';
+import { GetEquipmentElementsService } from '../../services/get-equipment-elements';
 import { AddCarInterface } from '../../interfaces/add-car.interface';
 import { Vehicle } from '../../models/Vehicle';
-import { Equipment } from '../../models/Equipment';
+import { EquipmentElement } from '../../models/EquipmentElement';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
@@ -13,18 +14,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 export class NewCarComponent implements OnInit {
   isExpanded = false;
   addCarForm: FormGroup = new FormGroup({});
-  equipment: any = 
-    [
-      { name: "Klimatyzacja", dbName: "Klimatyzacja", isChecked: false, idFor: "AirConditioning"},
-      { name: "System Multimedialny", dbName: "System-Multimedialny", isChecked: false, idFor: "MultimediaSystem"},
-      { name: "Bluetooth/USB", dbName: "Bluetooth/USB", isChecked: false, idFor: "BluetoothUSB"},
-      { name: "ABS", dbName: "ABS", isChecked: false, idFor: "ABS" },
-      { name: "ESP", dbName: "ESP", isChecked: false, idFor: "ESP" },
-      { name: "Czujniki Cofania", dbName: "Czujniki-Cofania", isChecked: false, idFor: "ReverseSensors"},
-      { name: "Ogrzewane Fotele", dbName: "Ogrzewane-Fotele", isChecked: false, idFor: "HeatedSeats"},
-      { name: "Cruise Control ", dbName: "Cruise-Control", isChecked: false, idFor: "CruiseControl"},
-      { name: "Kamera Cofania", dbName: "Kamera-Cofania", isChecked: false, idFor: "ReverseCamera"},
-    ];
+  equipment: EquipmentElement[] = [];
   isChecked: FormControl;
 
   updateValue(equipmentItem: any) {
@@ -35,13 +25,14 @@ export class NewCarComponent implements OnInit {
     }
  };
 
-  constructor(private addCarService: AddCarService,
+  constructor(private addCarService: AddCarService, private getEquipmentElementsService: GetEquipmentElementsService,
     private formBuilder: FormBuilder) {
     this.isChecked = new FormControl();
   }
 
   ngOnInit() {
     this.initForm();
+    this.getEquipmentElementsService.getEquipmentElements().subscribe(r => { this.equipment = r; }, err => { console.log("error", err); });
   };
 
   initForm() {

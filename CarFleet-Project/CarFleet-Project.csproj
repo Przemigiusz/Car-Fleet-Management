@@ -33,10 +33,11 @@
     <None Remove="ClientApp\src\app\home\home.module.ts" />
     <None Remove="ClientApp\src\app\new-car\new-car.module.ts" />
     <None Remove="ClientApp\src\interfaces\add-car.interface.ts" />
-    <None Remove="ClientApp\src\models\Equipment.ts" />
+    <None Remove="ClientApp\src\models\EquipmentElement.ts" />
     <None Remove="ClientApp\src\models\Vehicle.ts" />
     <None Remove="ClientApp\src\services\add-car.service.ts" />
     <None Remove="ClientApp\src\services\get-cars.service.ts" />
+    <None Remove="ClientApp\src\services\get-equipment-elements.ts" />
     <None Remove="ClientApp\src\services\get-filters.service.ts" />
   </ItemGroup>
 
@@ -47,8 +48,9 @@
     <TypeScriptCompile Include="ClientApp\src\app\home\home.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\new-car\new-car.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\add-car.interface.ts" />
-    <TypeScriptCompile Include="ClientApp\src\models\Equipment.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\EquipmentElement.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\Vehicle.ts" />
+    <TypeScriptCompile Include="ClientApp\src\services\get-equipment-elements.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\get-filters.service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
