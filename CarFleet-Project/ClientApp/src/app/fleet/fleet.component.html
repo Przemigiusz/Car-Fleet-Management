@@ -21,10 +21,7 @@
                   <p class="h5">Sortuj</p>
                   <select class="form-select" aria-label="Default select example">
                     <option selected>Wybierz typ</option>
-                    <option value="1">Cena za dzień: od najniższej</option>
-                    <option value="2">Cena za dzień: od najwyższej</option>
-                    <option value="3">Najniższa moc silnika</option>
-                    <option value="4">Najwyższa moc silnika</option>
+                    <option *ngFor="let sort of sortingTypes; let i = index" value="{{i+1}}">{{sort.typeName}}</option>
                   </select>
                 </div>
               </div>
@@ -51,21 +48,9 @@
             <div class="col-12">
               <h5>Rodzaj Paliwa</h5>
               <div class="row">
-                <div class="col m-1">
-                  <input type="checkbox" class="btn-check" id="gasolineBtn" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="gasolineBtn">Benzyna</label>
-                </div>
-                <div class="col m-1">
-                  <input type="checkbox" class="btn-check" id="dieselBtn" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="dieselBtn">Diesel</label>
-                </div>
-                <div class="col m-1">
-                  <input type="checkbox" class="btn-check" id="electricBtn" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="electricBtn">Elektryczny</label>
-                </div>
-                <div class="col m-1">
-                  <input type="checkbox" class="btn-check" id="lpgBtn" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="lpgBtn">LPG</label>
+                <div class="col m-1" *ngFor="let fuel of fuelTypes">
+                  <input type="checkbox" class="btn-check" id="{{fuel.typeName}}Btn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="{{fuel.typeName}}Btn">{{fuel.typeName}}</label>
                 </div>
               </div>
             </div>
@@ -73,25 +58,9 @@
             <div class="col-12">
               <h5>Cena Za Dzień</h5>
               <div class="row">
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="200Btn" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="200Btn">PLN 0 - PLN 200</label>
-                </div>
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="400Btn" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="400Btn">PLN 200 - PLN 400</label>
-                </div>
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="600Btn" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="600Btn">PLN 400 - PLN 600</label>
-                </div>
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="800Btn" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="800Btn">PLN 600 - PLN 800</label>
-                </div>
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="Above800Btn" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="Above800Btn">PLN 800 +</label>
+                <div class="col-12 m-1" *ngFor="let price of priceTypes">
+                  <input type="checkbox" class="btn-check" id="{{price.typeName}}Btn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="{{price.typeName}}Btn">{{price.typeName}}</label>
                 </div>
               </div>
             </div>
@@ -99,33 +68,9 @@
             <div class="col-12">
               <h5>Typ Nadwozia</h5>
               <div class="row">
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="Coupe" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="Coupe">Coupe</label>
-                </div>
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="Cabriolet" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="cabriolet">Kabriolet</label>
-                </div>
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="Combi" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="Combi">Kombi</label>
-                </div>
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="Compact" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="Compact">Kompakt</label>
-                </div>
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="Minivan" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="Minivan">Minivan</label>
-                </div>
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="Sedan" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="Sedan">Sedan</label>
-                </div>
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="SUV" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="SUV">SUV</label>
+                <div class="col-12 m-1" *ngFor="let carbody of carbodyTypes">
+                  <input type="checkbox" class="btn-check" id="{{carbody.typeName}}" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="{{carbody.typeName}}">{{carbody.typeName}}</label>
                 </div>
               </div>
             </div>
@@ -133,13 +78,9 @@
             <div class="col-12">
               <h5>Skrzynia Biegów</h5>
               <div class="row">
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="Manual" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="Manual">Manualna</label>
-                </div>
-                <div class="col-12 m-1">
-                  <input type="checkbox" class="btn-check" id="Automatic" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="Automatic">Automat</label>
+                <div class="col-12 m-1" *ngFor="let transmission of transmissionTypes">
+                  <input type="checkbox" class="btn-check" id="{{transmission.typeName}}" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="{{transmission.typeName}}">{{transmission.typeName}}</label>
                 </div>
               </div>
             </div>

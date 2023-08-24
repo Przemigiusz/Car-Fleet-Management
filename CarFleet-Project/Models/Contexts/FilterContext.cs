@@ -7,17 +7,18 @@ namespace CarFleet_Project.Models.Contexts
 {
     public class FilterContext : DbContext, IFilterContext
     {
-        public FilterContext(DbContextOptions options) : base(options)
+        public FilterContext(DbContextOptions<FilterContext> options) : base(options)
         {
         }
 
-        public DbSet<PricePerDay> PricesPerDay { get; set; }
+        public DbSet<PriceType> PriceTypes { get; set; }
         public DbSet<SortingType> SortingTypes { get; set; }
         public DbSet<CarbodyType> CarbodyTypes { get; set; }
         public DbSet<FuelType> FuelTypes { get; set; }
+        public DbSet<TransmissionType> TransmissionTypes { get; set; }
 
-        public IQueryable<PricePerDay> GetAllPricesPerDay() {
-            return PricesPerDay;
+        public IQueryable<PriceType> GetAllPriceTypes() {
+            return PriceTypes;
         }
         public IQueryable<SortingType> GetAllSortingTypes() {
             return SortingTypes;
@@ -27,6 +28,10 @@ namespace CarFleet_Project.Models.Contexts
         }
         public IQueryable<FuelType> GetAllFuelTypes() {
             return FuelTypes;
+        }
+        public IQueryable<TransmissionType> GetAllTransmissionTypes()
+        {
+            return TransmissionTypes;
         }
     }
 }

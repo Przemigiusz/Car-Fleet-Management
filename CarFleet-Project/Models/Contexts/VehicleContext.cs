@@ -7,16 +7,13 @@ namespace CarFleet_Project.Models.Contexts
 {
     public class VehicleContext : DbContext, IVehicleContext
     {
-        public VehicleContext(DbContextOptions options) : base(options)
+        public VehicleContext(DbContextOptions<VehicleContext> options) : base(options)
         {
         }
 
         public DbSet<Vehicle> Vehicles { get; set; }
 
-        public DbSet<EquipmentElement> VehiclesEquipment { get; set; }
-
-        public DbSet<PricePerDay> Filters { get; set; }
-        public DbSet<SortingType> Sortings { get; set; }
+        public DbSet<EquipmentElement> EquipmentElements { get; set; }
 
         public override int SaveChanges()
         {

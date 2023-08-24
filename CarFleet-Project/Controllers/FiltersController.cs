@@ -15,13 +15,13 @@ public class FiltersController : ControllerBase
         _ctx = ctx;
     }
 
-    [HttpGet("/carbody-types")]
+    [HttpGet("carbody-types")]
     public IActionResult GetAllCarbodyTypes()
     {
         try
         {
-            var vehicle = _ctx.GetAllCarbodyTypes();
-            return Ok(vehicle);
+            var carbodyTypes = _ctx.GetAllCarbodyTypes();
+            return Ok(carbodyTypes);
         }
         catch (Exception)
         {
@@ -29,13 +29,13 @@ public class FiltersController : ControllerBase
         }
     }
 
-    [HttpGet("/sorting-types")]
+    [HttpGet("sorting-types")]
     public IActionResult GetAllSortingTypes()
     {
         try
         {
-            var vehicle = _ctx.GetAllSortingTypes();
-            return Ok(vehicle);
+            var sortingTypes = _ctx.GetAllSortingTypes();
+            return Ok(sortingTypes);
         }
         catch (Exception)
         {
@@ -43,13 +43,13 @@ public class FiltersController : ControllerBase
         }
     }
 
-    [HttpGet("/prices-per-day")]
+    [HttpGet("prices-per-day")]
     public IActionResult GetAllPricesPerDay()
     {
         try
         {
-            var vehicle = _ctx.GetAllPricesPerDay();
-            return Ok(vehicle);
+            var pricesPerDay = _ctx.GetAllPriceTypes();
+            return Ok(pricesPerDay);
         }
         catch (Exception)
         {
@@ -57,13 +57,27 @@ public class FiltersController : ControllerBase
         }
     }
 
-    [HttpGet("/fuel-types")]
+    [HttpGet("fuel-types")]
     public IActionResult GetAllFuelTypes()
     {
         try
+        { 
+            var fuelTypes = _ctx.GetAllFuelTypes();
+            return Ok(fuelTypes);
+        }
+        catch (Exception)
         {
-            var vehicle = _ctx.GetAllFuelTypes();
-            return Ok(vehicle);
+            return BadRequest();
+        }
+    }
+
+    [HttpGet("transmission-types")]
+    public IActionResult GetAllTransmissionsTypes()
+    {
+        try
+        {
+            var transmissionTypes = _ctx.GetAllTransmissionTypes();
+            return Ok(transmissionTypes);
         }
         catch (Exception)
         {

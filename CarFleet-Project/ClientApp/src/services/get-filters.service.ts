@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Vehicle } from '../models/Vehicle';
-import { PricesPerDay } from '../models/PricesPerDay';
-import { FuelTypes } from '../models/FuelTypes';
-import { SortingTypes } from '../models/SortingTypes';
-import { CarbodyTypes } from '../models/CarbodyTypes';
+import { PriceType } from '../models/PriceType';
+import { FuelType } from '../models/FuelType';
+import { SortingType } from '../models/SortingType';
+import { CarbodyType } from '../models/CarbodyType';
+import { TransmissionType } from '../models/TransmissionType';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -13,16 +14,19 @@ export class GetFiltersService {
 
   constructor(private http: HttpClient) { }
 
-  getPricesPerDay(): Observable<PricesPerDay> {
-    return this.http.get<PricesPerDay>(`${this.baseUrl}/prices-per-day`);
+  getPricesPerDay(): Observable<PriceType[]> {
+    return this.http.get<PriceType[]>(`${this.baseUrl}/prices-per-day`);
   }
-  getFuelTypes(): Observable<FuelTypes> {
-    return this.http.get<FuelTypes>(`${this.baseUrl}/fuel-types`);
+  getFuelTypes(): Observable<FuelType[]> {
+    return this.http.get<FuelType[]>(`${this.baseUrl}/fuel-types`);
   }
-  getSortingTypes(): Observable<SortingTypes> {
-    return this.http.get<SortingTypes>(`${this.baseUrl}/sorting-types`);
+  getSortingTypes(): Observable<SortingType[]> {
+    return this.http.get<SortingType[]>(`${this.baseUrl}/sorting-types`);
   }
-  getCarbodyTypes(): Observable<CarbodyTypes> {
-    return this.http.get<CarbodyTypes>(`${this.baseUrl}/-carbody-types`);
+  getCarbodyTypes(): Observable<CarbodyType[]> {
+    return this.http.get<CarbodyType[]>(`${this.baseUrl}/carbody-types`);
+  }
+  getTransmissionTypes(): Observable<TransmissionType[]> {
+    return this.http.get<TransmissionType[]>(`${this.baseUrl}/transmission-types`);
   }
 }

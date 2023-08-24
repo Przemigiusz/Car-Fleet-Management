@@ -1,43 +1,36 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
 import { FooterMenuComponent } from './footer-menu/footer-menu.component';
-import { NewCarComponent } from './new-car-form/new-car.component'; 
-import { FleetComponent } from './fleet/fleet.component';
-
-import { AddCarService } from '../services/add-car.service';
-import { GetCarsService } from '../services/get-cars.service';
-import { GetFiltersService } from '../services/get-filters.service';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
-    HomeComponent,
     FooterMenuComponent,
-    NewCarComponent,
-    FleetComponent,
+    NavMenuComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'new-car', component: NewCarComponent, pathMatch: 'full' },
-      { path: 'fleet', component: FleetComponent, pathMatch: 'full' },
+
+      {
+        path: '', loadChildren: () => import('./home/home.module')
+          .then(m => m.HomeModule) },
+      {
+        path: 'fleet', loadChildren: () => import('./fleet/fleet.module')
+          .then(m => m.FleetModule) },
+      {
+        path: 'new-car', loadChildren: () => import('./new-car/new-car.module')
+          .then(m => m.NewCarModule) },
     ])
   ],
-  providers: [AddCarService, GetCarsService, GetFiltersService],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent, FooterMenuComponent, NavMenuComponent]
 })
 export class AppModule { }

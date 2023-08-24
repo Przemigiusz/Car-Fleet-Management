@@ -11,6 +11,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<IVehicleContext, VehicleContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection")));
 
+builder.Services.AddDbContext<IFilterContext, FilterContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("FilterConnection")));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
