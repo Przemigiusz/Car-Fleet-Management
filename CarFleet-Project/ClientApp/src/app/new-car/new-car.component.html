@@ -54,9 +54,9 @@
         </div>
         <div class="col-8 mb-5">
           <div class="row" >
-            <div class="col-4 mb-2 d-flex justify-content-center" *ngFor="let element of equipment; let i = index">
-              <input type="checkbox" class="btn-check" id="{{element.idFor}}" autocomplete="off" [formControl]="isChecked" (click)="updateValue(element)">
-              <label class="btn btn-outline-primary" for="{{element.idFor}}">{{element.name}}</label>
+            <div class="col-4 mb-2 d-flex justify-content-center" *ngFor="let opElement of operationalEquipment">
+              <input type="checkbox" class="btn-check" id="{{opElement.elementName}}" autocomplete="off" (click)="updateValue(opElement)">
+              <label class="btn btn-outline-primary" for="{{opElement.elementName}}">{{opElement.elementName}}</label>
             </div>
           </div>
         </div>

@@ -11,5 +11,7 @@ namespace CarFleet_Project.Models.Interfaces
         int SaveChanges();
 
         IQueryable<Vehicle> GetAll();
+
+        IQueryable<EquipmentElement> GetAllEquipmentElements();
     }
 }

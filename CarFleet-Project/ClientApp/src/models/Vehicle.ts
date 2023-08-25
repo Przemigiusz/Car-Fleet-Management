@@ -1,4 +1,4 @@
-import { Equipment } from "./Equipment";
+import { EquipmentElement } from "./EquipmentElement";
 
 export class Vehicle {
   vehicleId: number = 0;
@@ -9,5 +9,5 @@ export class Vehicle {
   fuelType: string = '';
   doorsAmount: string = '';
   carBodyType: string = '';
-  equipment: Equipment[] = [];
+  equipment: EquipmentElement[] = [];
 }

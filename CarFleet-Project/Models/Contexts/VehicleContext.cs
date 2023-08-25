@@ -10,7 +10,6 @@ namespace CarFleet_Project.Models.Contexts
         public VehicleContext(DbContextOptions<VehicleContext> options) : base(options)
         {
         }
-
         public DbSet<Vehicle> Vehicles { get; set; }
 
         public DbSet<EquipmentElement> EquipmentElements { get; set; }
@@ -23,6 +22,11 @@ namespace CarFleet_Project.Models.Contexts
         public IQueryable<Vehicle> GetAll()
         {
             return Vehicles;
+        }
+
+        public IQueryable<EquipmentElement> GetAllEquipmentElements()
+        {
+            return EquipmentElements;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

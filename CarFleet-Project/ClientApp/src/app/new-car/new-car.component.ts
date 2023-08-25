@@ -1,38 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AddCarService } from '../../services/add-car.service';
 import { GetEquipmentElementsService } from '../../services/get-equipment-elements';
 import { AddCarInterface } from '../../interfaces/add-car.interface';
 import { Vehicle } from '../../models/Vehicle';
 import { EquipmentElement } from '../../models/EquipmentElement';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'new-car',
   templateUrl: './new-car.component.html',
   styleUrls: ['./new-car.component.css'],
 })
-export class NewCarComponent implements OnInit {
+export class NewCarComponent implements OnInit, OnDestroy {
   isExpanded = false;
   addCarForm: FormGroup = new FormGroup({});
-  equipment: EquipmentElement[] = [];
-  isChecked: FormControl;
+  equipment: EquipmentElement[];
+  operationalEquipment: any[] ;
+  private onDestroy$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
-  updateValue(equipmentItem: any) {
-    if (equipmentItem.isChecked === false) {
-      equipmentItem.isChecked = true;
+  updateValue(opElement: any) {
+    if (opElement.isChecked === false) {
+      opElement.isChecked = true;
     } else {
-      equipmentItem.isChecked = false;
+      opElement.isChecked = false;
     }
  };
 
   constructor(private addCarService: AddCarService, private getEquipmentElementsService: GetEquipmentElementsService,
-    private formBuilder: FormBuilder) {
-    this.isChecked = new FormControl();
+    private formBuilder: FormBuilder) {}
+
+  public ngOnDestroy(): void {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   ngOnInit() {
     this.initForm();
-    this.getEquipmentElementsService.getEquipmentElements().subscribe(r => { this.equipment = r; }, err => { console.log("error", err); });
+    this.getEquipmentElementsService.getEquipmentElements()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(r => {
+        this.equipment = r;
+        this.operationalEquipment = [];
+        for (let el of this.equipment) {
+          this.operationalEquipment.push({ elementId: el.elementId, elementName: el.elementName, isChecked: false });
+        }
+      }, err => { console.log("error", err); });
   };
 
   initForm() {
@@ -58,13 +71,15 @@ export class NewCarComponent implements OnInit {
       newVehicle.fuelType = formData.fuelType;
       newVehicle.doorsAmount = formData.doorsAmount;
       newVehicle.carBodyType = formData.carBodyType;
-      for (let el of this.equipment) {
-        if (el.isChecked === true) {
-          newVehicle.equipment.push(el.name);
+      for (let opElement of this.operationalEquipment) {
+        if (opElement.isChecked === true) {
+          newVehicle.equipment.push(new EquipmentElement(opElement.elementId, opElement.elementName));
         }
       }
-      this.addCarService.addCar(newVehicle).subscribe(
-        r => { debugger }, //r => { debugger } console.log("sukces")
+      this.addCarService.addCar(newVehicle)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe(
+        r => { debugger },
         err => { console.log("błąd") });
     }
     else {
