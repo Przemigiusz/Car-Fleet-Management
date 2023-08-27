@@ -13,10 +13,10 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   styleUrls: ['./new-car.component.css'],
 })
 export class NewCarComponent implements OnInit, OnDestroy {
-  isExpanded = false;
-  addCarForm: FormGroup = new FormGroup({});
-  equipment: EquipmentElement[];
-  operationalEquipment: any[] ;
+  private isExpanded = false;
+  public addCarForm: FormGroup = new FormGroup({});
+  private equipment: EquipmentElement[];
+  public operationalEquipment: any[] ;
   private onDestroy$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
   updateValue(opElement: any) {

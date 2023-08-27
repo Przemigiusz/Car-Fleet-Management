@@ -15,14 +15,14 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   styleUrls: ['./fleet.component.css'],
 })
 export class FleetComponent implements OnInit, OnDestroy {
-  mainBanner: string = 'assets/images/dope-cars-banner.png';
-  data: Vehicle[] = [];
+  public mainBanner: string = 'assets/images/dope-cars-banner.png';
+  public data: Vehicle[] = [];
 
-  priceTypes: PriceType[] = [];
-  sortingTypes: SortingType[] = [];
-  carbodyTypes: CarbodyType[] = [];
-  fuelTypes: FuelType[] = [];
-  transmissionTypes: TransmissionType[] = [];
+  public priceTypes: PriceType[] = [];
+  public sortingTypes: SortingType[] = [];
+  public carbodyTypes: CarbodyType[] = [];
+  public fuelTypes: FuelType[] = [];
+  public transmissionTypes: TransmissionType[] = [];
 
   private onDestroy$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
