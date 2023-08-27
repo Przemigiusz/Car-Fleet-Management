@@ -1,12 +1,17 @@
 using CarFleet_Project.Models.Contexts;
 using CarFleet_Project.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 
 builder.Services.AddDbContext<IVehicleContext, VehicleContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection")));

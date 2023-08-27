@@ -80,7 +80,7 @@ export class NewCarComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
         r => { debugger },
-        err => { console.log("błąd") });
+        err => { console.log("błąd"), console.log(err) });
     }
     else {
       console.log("Form is not valid!!!");

@@ -19,15 +19,11 @@ public class FilterController : ControllerBase
     [HttpPost]
     public IActionResult Post([FromBody] Vehicle vehicle)
     {
-        _ctx.Vehicles.Add(vehicle);
+        _ctx.Vehicles.Update(vehicle);
         try
         {
             var id = _ctx.SaveChanges();
             vehicle.vehicleId = id;
-        }
-        catch (DbUpdateException ex)
-        {
-            throw ex;
         }
         catch (Exception)
         {

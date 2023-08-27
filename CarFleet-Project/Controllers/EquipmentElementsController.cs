@@ -18,6 +18,7 @@ public class EquipmentElementsController : ControllerBase
     [HttpGet("equipment-elements")]
     public IActionResult GetAllEquipmentElements()
     {
+        Console.WriteLine("test");
         try
         {
             var equipmentElements = _ctx.GetAllEquipmentElements();
