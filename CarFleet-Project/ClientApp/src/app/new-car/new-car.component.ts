@@ -4,7 +4,7 @@ import { GetEquipmentElementsService } from '../../services/get-equipment-elemen
 import { AddCarInterface } from '../../interfaces/add-car.interface';
 import { Vehicle } from '../../models/Vehicle';
 import { EquipmentElement } from '../../models/EquipmentElement';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors } from '@angular/forms';
 import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
@@ -18,6 +18,7 @@ export class NewCarComponent implements OnInit, OnDestroy {
   private equipment: EquipmentElement[];
   public operationalEquipment: any[] ;
   private onDestroy$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
+  private file: File;
 
   updateValue(opElement: any) {
     if (opElement.isChecked === false) {
@@ -57,11 +58,24 @@ export class NewCarComponent implements OnInit, OnDestroy {
       fuelType: ['', Validators.required],
       doorsAmount: ['', Validators.required],
       carBodyType: ['', Validators.required],
+      vehicleImage: [null, Validators.required]
     })
+  }
+
+
+
+  fileChanged(event: Event) {
+    const imageInputElement = event.target as HTMLInputElement;
+    if (imageInputElement.files && imageInputElement.files.length > 0) {
+      this.file = imageInputElement.files[0]; //File Type
+      //this.addCarForm.value.vehicleImage = this.file;
+    }
   }
 
   submitForm() {
     if (this.addCarForm.valid) {
+      console.log("Form is valid!!!");
+      console.log(this.addCarForm.errors);
       const formData: AddCarInterface = this.addCarForm.value;
       const newVehicle: Vehicle = new Vehicle();
       newVehicle.brand = formData.brand;
@@ -71,12 +85,13 @@ export class NewCarComponent implements OnInit, OnDestroy {
       newVehicle.fuelType = formData.fuelType;
       newVehicle.doorsAmount = formData.doorsAmount;
       newVehicle.carBodyType = formData.carBodyType;
+
       for (let opElement of this.operationalEquipment) {
         if (opElement.isChecked === true) {
           newVehicle.equipment.push(new EquipmentElement(opElement.elementId, opElement.elementName));
         }
       }
-      this.addCarService.addCar(newVehicle)
+      this.addCarService.addCar(newVehicle, this.file)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
         r => { debugger },
@@ -84,8 +99,17 @@ export class NewCarComponent implements OnInit, OnDestroy {
     }
     else {
       console.log("Form is not valid!!!");
-    }
-    
+      this.getFormValidationErrors();
+    }  
+  }
+
+  getFormValidationErrors() {
+    Object.keys(this.addCarForm.controls).forEach((key,value) => {
+      const controlErrors: ValidationErrors = this.addCarForm.get(key)!.errors!;
+      Object.keys(controlErrors || {}).forEach(keyError => {
+        console.log(`Key control: ${key}, keyError: ${keyError}, errValue: ${controlErrors[keyError]}`);
+      });
+    });
   }
 
   collapse() {

@@ -52,8 +52,14 @@
             </datalist>
           </div>
         </div>
+        <div class="col-8">
+          <div class="mb-3">
+            <label for="vehicleImage" class="form-label">Zdjęcie pojazdu</label>
+            <input formControlName="vehicleImage" class="form-control" id="vehicleImage" type="file" (change)="fileChanged($event)">
+          </div>
+        </div>
         <div class="col-8 mb-5">
-          <div class="row" >
+          <div class="row">
             <div class="col-4 mb-2 d-flex justify-content-center" *ngFor="let opElement of operationalEquipment">
               <input type="checkbox" class="btn-check" id="{{opElement.elementName}}" autocomplete="off" (click)="updateValue(opElement)">
               <label class="btn btn-outline-primary" for="{{opElement.elementName}}">{{opElement.elementName}}</label>

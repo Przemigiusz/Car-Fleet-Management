@@ -70,6 +70,10 @@ namespace CarFleet_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<byte[]>("vehicleImage")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("yearOfProduction")
                         .IsRequired()
                         .HasColumnType("nvarchar(4)");

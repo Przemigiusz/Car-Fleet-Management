@@ -30,6 +30,8 @@ namespace CarFleet_Project.Models.Tables
         [Column(TypeName = "nvarchar(20)")]
         public string carBodyType { get; set; } = "";
 
+        public byte[] vehicleImage { get; set; } = null!;
+
         public List<EquipmentElement> equipment { get; set; } = new();
     }
 }
