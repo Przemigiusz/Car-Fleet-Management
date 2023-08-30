@@ -23,5 +23,6 @@ namespace CarFleet_Project.Models.Interfaces
         IQueryable<CarbodyType> GetAllCarbodyTypes();
         IQueryable<FuelType> GetAllFuelTypes();
         IQueryable<TransmissionType> GetAllTransmissionTypes();
+        IQueryable<VehicleImage> GetVehicleImages(int vehicleId);
     }
 }

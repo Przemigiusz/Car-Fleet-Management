@@ -54,15 +54,57 @@ namespace CarFleet_Project.Models.Contexts
             return TransmissionTypes;
         }
 
+        //public IQueryable<VehicleImage> GetVehicleImages(int vehicleId)
+        //{
+        //    return VehicleImages.Where(vh => vh.);
+        //}
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //PRIMARY KEYS
             modelBuilder.Entity<Vehicle>()
-                .HasMany(e => e.equipment)
-                .WithMany(e => e.vehicles);
+                .HasKey(v => v.vehicleId);
+
+            modelBuilder.Entity<VehicleImage>()
+                .HasKey(vi => vi.imageId);
+
+            modelBuilder.Entity<TransmissionType>()
+                .HasKey(tt => tt.typeId);
+
+            modelBuilder.Entity<SortingType>()
+                .HasKey(st => st.typeId);
+
+            modelBuilder.Entity<PriceType>()
+                .HasKey(pt => pt.priceId);
+
+            modelBuilder.Entity<FuelType>()
+                .HasKey(ft => ft.typeId);
 
             modelBuilder.Entity<EquipmentElement>()
+                .HasKey(ee => ee.elementId);
+
+            modelBuilder.Entity<CarbodyType>()
+                .HasKey(ct => ct.typeId);
+
+            //RELATIONSHIPS
+            modelBuilder.Entity<Vehicle>() //def many-to-many relationship vehicle - equipment
+                .HasMany(v => v.equipment)
+                .WithMany(e => e.vehicles);
+
+            modelBuilder.Entity<EquipmentElement>() //def many-to-many relationship equipment - vehicle
                 .HasMany(e => e.vehicles)
-                .WithMany(e => e.equipment);
+                .WithMany(v => v.equipment);
+
+            modelBuilder.Entity<Vehicle>() //def many-to-one relationship vehicle - vehicleImages
+                .HasMany(v => v.vehicleImages)
+                .WithOne(vi => vi.vehicle)
+                .HasForeignKey(vi => vi.imageId);
+
+            modelBuilder.Entity<VehicleImage>() //def one-to-many relationship vehicleImages - vehicle
+               .HasOne(vi => vi.vehicle)
+               .WithMany(v => v.vehicleImages)
+               .HasForeignKey(v => v.vehicle);
+            
         }
     }
 }
