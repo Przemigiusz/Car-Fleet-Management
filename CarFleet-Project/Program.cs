@@ -13,11 +13,8 @@ builder.Services.AddControllersWithViews()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 
-builder.Services.AddDbContext<IVehicleContext, VehicleContext>(options =>
+builder.Services.AddDbContext<ICarFleetContext, CarFleetContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection")));
-
-builder.Services.AddDbContext<IFilterContext, FilterContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("FilterConnection")));
 
 var app = builder.Build();
 

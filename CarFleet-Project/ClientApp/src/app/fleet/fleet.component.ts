@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { GetCarsService } from '../../services/get-cars.service'
-import { GetFiltersService } from '../../services/get-filters.service'
+import { VehiclesService } from '../../services/vehicles.service'
+import { FiltersService } from '../../services/filters.service'
 import { Vehicle } from '../../models/Vehicle';
 import { PriceType } from '../../models/PriceType';
 import { SortingType } from '../../models/SortingType';
@@ -8,6 +8,7 @@ import { CarbodyType } from '../../models/CarbodyType';
 import { FuelType } from '../../models/FuelType';
 import { TransmissionType } from '../../models/TransmissionType';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'fleet',
@@ -16,8 +17,8 @@ import { ReplaySubject, takeUntil } from 'rxjs';
 })
 export class FleetComponent implements OnInit, OnDestroy {
   public mainBanner: string = 'assets/images/dope-cars-banner.png';
-  public data: Vehicle[] = [];
 
+  public data: Vehicle[] = [];
   public priceTypes: PriceType[] = [];
   public sortingTypes: SortingType[] = [];
   public carbodyTypes: CarbodyType[] = [];
@@ -31,13 +32,13 @@ export class FleetComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  constructor(private getCarsService: GetCarsService, private getFiltersService: GetFiltersService
-   ) { }
+  constructor(private vehiclesService: VehiclesService, private getFiltersService: FiltersService, private sanitizer: DomSanitizer)
+  {}
 
   ngOnInit() {
-    this.getCarsService.getCars()
+    this.vehiclesService.getVehicles()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(r => { this.data = r; }, err => { console.log("error", err); });
+      .subscribe(r => { this.data = r; }, err => { console.log("error", err); }); 
     this.getFiltersService.getPricesPerDay()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(r => { this.priceTypes = r; }, err => { console.log("error", err); });

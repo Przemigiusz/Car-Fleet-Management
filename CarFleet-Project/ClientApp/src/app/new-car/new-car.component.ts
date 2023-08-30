@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AddCarService } from '../../services/add-car.service';
-import { GetEquipmentElementsService } from '../../services/get-equipment-elements';
+import { VehiclesService } from '../../services/vehicles.service';
+import { EquipmentService } from '../../services/equipment.service';
 import { AddCarInterface } from '../../interfaces/add-car.interface';
 import { Vehicle } from '../../models/Vehicle';
+import { VehicleImage } from '../../models/vehicleImage';
 import { EquipmentElement } from '../../models/EquipmentElement';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors } from '@angular/forms';
 import { ReplaySubject, takeUntil } from 'rxjs';
@@ -18,7 +19,7 @@ export class NewCarComponent implements OnInit, OnDestroy {
   private equipment: EquipmentElement[];
   public operationalEquipment: any[] ;
   private onDestroy$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
-  private file: File;
+  private images: VehicleImage[] = [];
 
   updateValue(opElement: any) {
     if (opElement.isChecked === false) {
@@ -28,7 +29,7 @@ export class NewCarComponent implements OnInit, OnDestroy {
     }
  };
 
-  constructor(private addCarService: AddCarService, private getEquipmentElementsService: GetEquipmentElementsService,
+  constructor(private addCarService: VehiclesService, private getEquipmentElementsService: EquipmentService,
     private formBuilder: FormBuilder) {}
 
   public ngOnDestroy(): void {
@@ -67,8 +68,8 @@ export class NewCarComponent implements OnInit, OnDestroy {
   fileChanged(event: Event) {
     const imageInputElement = event.target as HTMLInputElement;
     if (imageInputElement.files && imageInputElement.files.length > 0) {
-      this.file = imageInputElement.files[0]; //File Type
-      //this.addCarForm.value.vehicleImage = this.file;
+      const vehicleImage = new VehicleImage(imageInputElement.name, imageInputElement.type);
+      this.images.push(vehicleImage);
     }
   }
 
@@ -91,7 +92,7 @@ export class NewCarComponent implements OnInit, OnDestroy {
           newVehicle.equipment.push(new EquipmentElement(opElement.elementId, opElement.elementName));
         }
       }
-      this.addCarService.addCar(newVehicle, this.file)
+      this.addCarService.addVehicle(newVehicle)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
         r => { debugger },

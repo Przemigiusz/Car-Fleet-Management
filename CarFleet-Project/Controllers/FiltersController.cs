@@ -9,13 +9,13 @@ namespace CarFleet_Project.Controllers;
 [ApiController]
 public class FiltersController : ControllerBase
 {
-    IFilterContext _ctx;
-    public FiltersController(IFilterContext ctx)
+    ICarFleetContext _ctx;
+    public FiltersController(ICarFleetContext ctx)
     {
         _ctx = ctx;
     }
 
-    [HttpGet("carbody-types")]
+    [HttpGet("get-carbody-types")]
     public IActionResult GetAllCarbodyTypes()
     {
         try
@@ -25,11 +25,11 @@ public class FiltersController : ControllerBase
         }
         catch (Exception)
         {
-            return BadRequest();
+            return BadRequest("There is a problem with getting carbody types");
         }
     }
 
-    [HttpGet("sorting-types")]
+    [HttpGet("get-sorting-types")]
     public IActionResult GetAllSortingTypes()
     {
         try
@@ -39,11 +39,11 @@ public class FiltersController : ControllerBase
         }
         catch (Exception)
         {
-            return BadRequest();
+            return BadRequest("There is a problem with getting sorting types");
         }
     }
 
-    [HttpGet("prices-per-day")]
+    [HttpGet("get-price-types")]
     public IActionResult GetAllPricesPerDay()
     {
         try
@@ -53,11 +53,11 @@ public class FiltersController : ControllerBase
         }
         catch (Exception)
         {
-            return BadRequest();
+            return BadRequest("There is a problem with getting price types");
         }
     }
 
-    [HttpGet("fuel-types")]
+    [HttpGet("get-fuel-types")]
     public IActionResult GetAllFuelTypes()
     {
         try
@@ -67,11 +67,11 @@ public class FiltersController : ControllerBase
         }
         catch (Exception)
         {
-            return BadRequest();
+            return BadRequest("There is a problem with getting fuel types");
         }
     }
 
-    [HttpGet("transmission-types")]
+    [HttpGet("get-transmission-types")]
     public IActionResult GetAllTransmissionsTypes()
     {
         try
@@ -81,7 +81,7 @@ public class FiltersController : ControllerBase
         }
         catch (Exception)
         {
-            return BadRequest();
+            return BadRequest("There is a problem with getting transmission types");
         }
     }
 }

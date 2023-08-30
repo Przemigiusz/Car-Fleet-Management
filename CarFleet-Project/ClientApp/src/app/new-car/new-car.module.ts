@@ -4,8 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-import { AddCarService } from '../../services/add-car.service';
-import { GetEquipmentElementsService } from '../../services/get-equipment-elements';
+import { VehiclesService } from '../../services/vehicles.service';
+import { EquipmentService } from '../../services/equipment.service';
 import { NewCarComponent } from './new-car.component';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { NewCarComponent } from './new-car.component';
       { path: '', component: NewCarComponent, pathMatch: 'full' },
     ])
   ],
-  providers: [AddCarService, GetEquipmentElementsService],
+  providers: [VehiclesService, EquipmentService],
   bootstrap: []
 })
 export class NewCarModule { }

@@ -3,8 +3,8 @@ import { RouterModule } from '@angular/router';
 import { FleetComponent } from './fleet.component'
 import { CommonModule } from '@angular/common';
 
-import { GetCarsService } from '../../services/get-cars.service'
-import { GetFiltersService } from '../../services/get-filters.service'
+import { VehiclesService } from '../../services/vehicles.service'
+import { FiltersService } from '../../services/filters.service'
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import { GetFiltersService } from '../../services/get-filters.service'
       { path: '', component: FleetComponent, pathMatch: 'full' },
     ])
   ],
-  providers: [GetCarsService, GetFiltersService],
+  providers: [VehiclesService, FiltersService],
   bootstrap: []
 })
 export class FleetModule { }
