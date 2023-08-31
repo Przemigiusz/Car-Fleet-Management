@@ -39,16 +39,16 @@ export class FleetComponent implements OnInit, OnDestroy {
     this.vehiclesService.getVehicles()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(r => { this.data = r; }, err => { console.log("error", err); }); 
-    this.getFiltersService.getPricesPerDay()
+    this.getFiltersService.getPriceRanges()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(r => { this.priceTypes = r; }, err => { console.log("error", err); });
     this.getFiltersService.getSortingTypes()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(r => { this.sortingTypes = r; }, err => { console.log("error", err); });
-    this.getFiltersService.getCarbodyTypes()
+    this.getFiltersService.getCarbodies()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(r => { this.carbodyTypes = r; }, err => { console.log("error", err); });
-    this.getFiltersService.getFuelTypes()
+    this.getFiltersService.getFuels()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(r => { this.fuelTypes = r; }, err => { console.log("error", err); });
     this.getFiltersService.getTransmissionTypes()
