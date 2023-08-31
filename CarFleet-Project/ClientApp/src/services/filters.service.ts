@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PriceType } from '../models/PriceType';
-import { FuelType } from '../models/FuelType';
+import { PriceRange } from '../models/PriceRange';
+import { Fuel } from '../models/Fuel';
 import { SortingType } from '../models/SortingType';
-import { CarbodyType } from '../models/CarbodyType';
+import { Carbody } from '../models/Carbody';
 import { TransmissionType } from '../models/TransmissionType';
 import { Observable } from 'rxjs';
+import { Model } from '../models/Model';
+import { Brand } from '../models/Brand';
 
 @Injectable()
 export class FiltersService {
@@ -13,19 +15,25 @@ export class FiltersService {
 
   constructor(private http: HttpClient) { }
 
-  getPricesPerDay(): Observable<PriceType[]> {
-    return this.http.get<PriceType[]>(`${this.baseUrl}/prices-per-day`);
+  getPriceRanges(): Observable<PriceRange[]> {
+    return this.http.get<PriceRange[]>(`${this.baseUrl}/get-price-ranges`);
   }
-  getFuelTypes(): Observable<FuelType[]> {
-    return this.http.get<FuelType[]>(`${this.baseUrl}/fuel-types`);
+  getFuels(): Observable<Fuel[]> {
+    return this.http.get<Fuel[]>(`${this.baseUrl}/get-fuels`);
   }
   getSortingTypes(): Observable<SortingType[]> {
-    return this.http.get<SortingType[]>(`${this.baseUrl}/sorting-types`);
+    return this.http.get<SortingType[]>(`${this.baseUrl}/get-sorting-types`);
   }
-  getCarbodyTypes(): Observable<CarbodyType[]> {
-    return this.http.get<CarbodyType[]>(`${this.baseUrl}/carbody-types`);
+  getCarbodies(): Observable<Carbody[]> {
+    return this.http.get<Carbody[]>(`${this.baseUrl}/get-carbodies`);
   }
   getTransmissionTypes(): Observable<TransmissionType[]> {
-    return this.http.get<TransmissionType[]>(`${this.baseUrl}/transmission-types`);
+    return this.http.get<TransmissionType[]>(`${this.baseUrl}/get-transmission-types`);
+  }
+  getBrands(): Observable<Brand[]> {
+    return this.http.get<Brand[]>(`${this.baseUrl}/get-brands`);
+  }
+  getModels(): Observable<Model[]> {
+    return this.http.get<Model[]>(`${this.baseUrl}/get-models`);
   }
 }

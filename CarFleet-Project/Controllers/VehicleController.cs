@@ -21,41 +21,41 @@ public class FilterController : ControllerBase
         _ctx = ctx;
     }
 
-    [HttpPost("post-vehicle")]
-    public async Task<IActionResult> PostVehicle()
-    {
-        var form = await Request.ReadFormAsync();
-        var vehicleJson = form["vehicle"];
-        Vehicle vehicle = JsonSerializer.Deserialize<Vehicle>(vehicleJson!)!;
+    //[HttpPost("post-vehicle")]
+    //public async Task<IActionResult> PostVehicle()
+    //{
+    //    var form = await Request.ReadFormAsync();
+    //    var vehicleJson = form["vehicle"];
+    //    Vehicle vehicle = JsonSerializer.Deserialize<Vehicle>(vehicleJson!)!;
 
-        var file = form.Files.GetFile("file");
-        var fileStream = file!.OpenReadStream();
-        byte[] bytes = new byte[file.Length];
-        fileStream.Read(bytes, 0, (int)file.Length);
-        Image image = Image.Load(bytes);
-        int width = 320;
-        int height = 146;
-        image.Mutate(x => x.Resize(width, height));
+    //    var file = form.Files.GetFile("file");
+    //    var fileStream = file!.OpenReadStream();
+    //    byte[] bytes = new byte[file.Length];
+    //    fileStream.Read(bytes, 0, (int)file.Length);
+    //    Image image = Image.Load(bytes);
+    //    int width = 320;
+    //    int height = 146;
+    //    image.Mutate(x => x.Resize(width, height));
 
 
-        using var output = new MemoryStream();
-        image.Save(output, new JpegEncoder());
+    //    using var output = new MemoryStream();
+    //    image.Save(output, new JpegEncoder());
 
-        byte[] compressedImage = output.ToArray();
-        vehicle.vehicleImage = compressedImage;
+    //    byte[] compressedImage = output.ToArray();
+    //    vehicle.vehicleImages.Add(compressedImage);
 
-        _ctx.Vehicles.Update(vehicle);
-        try
-        {
-            var id = _ctx.SaveChanges();
-            vehicle.vehicleId = id;
-        }
-        catch (Exception)
-        {
-            return BadRequest("There is a problem with updating db with a new car");
-        }
-        return Ok(vehicle);
-    }
+    //    _ctx.Vehicles.Update(vehicle);
+    //    try
+    //    {
+    //        var id = _ctx.SaveChanges();
+    //        vehicle.vehicleId = id;
+    //    }
+    //    catch (Exception)
+    //    {
+    //        return BadRequest("There is a problem with updating db with a new car");
+    //    }
+    //    return Ok(vehicle);
+    //}
 
     [HttpPost("post-image")]
     public IActionResult PostImage([FromBody] VehicleImage vehicleImage)

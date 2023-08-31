@@ -10,7 +10,7 @@ export class EquipmentService {
   constructor(private http: HttpClient) { }
 
   getEquipmentElements(): Observable<EquipmentElement[]> {
-    return this.http.get<EquipmentElement[]>(`${this.baseUrl}/equipment-elements`).pipe(
+    return this.http.get<EquipmentElement[]>(`${this.baseUrl}/get-equipment-elements`).pipe(
       map(r => {
         var result = new Array<EquipmentElement>();
         r.forEach(v => result.push(new EquipmentElement().fromJSON(v)));

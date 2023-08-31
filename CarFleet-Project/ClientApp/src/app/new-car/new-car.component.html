@@ -7,6 +7,7 @@
             <label for="BrandDataList" class="form-label">Marka</label>
             <input formControlName="brand" class="form-control" list="datalistOptions" id="BrandDataList" placeholder="Marka">
             <datalist id="BrandDatalistOptions">
+              <option value="{{brand.brandName}}" ngFor="let brand of brands">
             </datalist>
           </div>
         </div>
@@ -15,6 +16,7 @@
             <label for="ModelDataList" class="form-label">Model</label>
             <input formControlName="model" class="form-control" list="datalistOptions" id="ModelDataList" placeholder="Model">
             <datalist id="ModelDatalistOptions">
+              <option value="{{model.modelName}}" ngFor="let model of models">
             </datalist>
           </div>
         </div>
@@ -35,6 +37,7 @@
             <label for="FuelDataList" class="form-label">Rodzaj paliwa</label>
             <input formControlName="fuelType" class="form-control" list="datalistOptions" id="FuelDataList" placeholder="Rodzaj paliwa">
             <datalist id="FuelDatalistOptions">
+              <option value="{{fuel.fuelName}}" ngFor="let fuel of fuels">
             </datalist>
           </div>
         </div>
@@ -46,16 +49,26 @@
         </div>
         <div class="col-8">
           <div class="mb-3">
-            <label for="CarBodyDataList" class="form-label">Rodzaj nadwozia</label>
-            <input formControlName="carBodyType" class="form-control" list="datalistOptions" id="CarBodyDataList" placeholder="Rodzaj nadwozia">
-            <datalist id="CarBodyDatalistOptions">
+            <label for="TransmissionTypeDataList" class="form-label">Rodzaj skrzyni biegów</label>
+            <input formControlName="carbodyType" class="form-control" list="datalistOptions" id="TransmissionTypeDataList" placeholder="Rodzaj skrzyni biegów">
+            <datalist id="TransmissionTypeDatalistOptions">
+              <option value="{{transmissionType.typeName}}" ngFor="let transmissionType of transmissionTypes">
+            </datalist>
+          </div>
+        </div>
+        <div class="col-8">
+          <div class="mb-3">
+            <label for="CarbodyDataList" class="form-label">Rodzaj nadwozia</label>
+            <input formControlName="carbodyType" class="form-control" list="datalistOptions" id="CarbodyDataList" placeholder="Rodzaj nadwozia">
+            <datalist id="CarbodyDatalistOptions">
+              <option value="{{carbody.carbodyName}}" ngFor="let carbody of carbodies">
             </datalist>
           </div>
         </div>
         <div class="col-8">
           <div class="mb-3">
             <label for="vehicleImage" class="form-label">Zdjęcie pojazdu</label>
-            <input formControlName="vehicleImage" class="form-control" id="vehicleImage" type="file" (change)="fileChanged($event)">
+            <input formControlName="vehicleImage" class="form-control" id="vehicleImage" type="file" (change)="fileChanged($event)" multiple>
           </div>
         </div>
         <div class="col-8 mb-5">

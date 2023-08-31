@@ -3,11 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CarFleet_Project.Models.Tables
 {
-    public class TransmissionType
+    public class Carbody
     {
-        public int typeId { get; set; }
-        public string typeName { get; set; } = "";
-        private int vehicleId;
+        public int carbodyId { get; set; }
+        private string carbodyName { get; set; } = "";
         public virtual List<Vehicle> vehicles { get; set; } = null!;
     }
 }

@@ -8,22 +8,19 @@ namespace CarFleet_Project.Models.Tables
     {
         public int vehicleId { get; set; }
 
-        public string brand { get; set; } = "";
-
-        public string model { get; set; } = "";
-
-        public string yearOfProduction { get; set; } = "";
-
-        public string mileage { get; set; } = "";
-
-        public string fuelType { get; set; } = "";
-
-        public string doorsAmount { get; set; } = "";
-
-        public string carBodyType { get; set; } = "";
-
-        public VehicleImage[] vehicleImages { get; set; } = null!;
-
-        public List<EquipmentElement> equipment { get; set; } = new();
+        public int brandId { get; set; }
+        public virtual Brand brand { get; set; } = null!;
+        public int modelId { get; set; }
+        public virtual Model model { get; set; } = null!;
+        public virtual List<Fuel> fuels { get; set; } = new();
+        public int carbodyId { get; set; }
+        public virtual Carbody carbody { get; set; } = null!;
+        public int transmissionTypeId { get; set; }
+        public virtual TransmissionType transmissionType { get; set; } = null!;
+        public virtual List<VehicleImage> vehicleImages { get; set; } = new();
+        public virtual List<EquipmentElement> equipment { get; set; } = new();
+        private string yearOfProduction { get; set; } = "";
+        private string mileage { get; set; } = "";
+        private string doorsAmount { get; set; } = "";
     }
 }

@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VehiclesService } from '../../services/vehicles.service'
 import { FiltersService } from '../../services/filters.service'
 import { Vehicle } from '../../models/Vehicle';
-import { PriceType } from '../../models/PriceType';
+import { PriceRange } from '../../models/PriceRange';
 import { SortingType } from '../../models/SortingType';
-import { CarbodyType } from '../../models/CarbodyType';
-import { FuelType } from '../../models/FuelType';
+import { Carbody } from '../../models/Carbody';
+import { Fuel } from '../../models/Fuel';
 import { TransmissionType } from '../../models/TransmissionType';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,10 +19,10 @@ export class FleetComponent implements OnInit, OnDestroy {
   public mainBanner: string = 'assets/images/dope-cars-banner.png';
 
   public data: Vehicle[] = [];
-  public priceTypes: PriceType[] = [];
+  public priceTypes: PriceRange[] = [];
   public sortingTypes: SortingType[] = [];
-  public carbodyTypes: CarbodyType[] = [];
-  public fuelTypes: FuelType[] = [];
+  public carbodyTypes: Carbody[] = [];
+  public fuelTypes: Fuel[] = [];
   public transmissionTypes: TransmissionType[] = [];
 
   private onDestroy$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);

@@ -15,12 +15,12 @@ public class FiltersController : ControllerBase
         _ctx = ctx;
     }
 
-    [HttpGet("get-carbody-types")]
+    [HttpGet("get-carbodies")]
     public IActionResult GetAllCarbodyTypes()
     {
         try
         {
-            var carbodyTypes = _ctx.GetAllCarbodyTypes();
+            var carbodyTypes = _ctx.GetAllCarbodies();
             return Ok(carbodyTypes);
         }
         catch (Exception)
@@ -43,12 +43,12 @@ public class FiltersController : ControllerBase
         }
     }
 
-    [HttpGet("get-price-types")]
+    [HttpGet("get-price-ranges")]
     public IActionResult GetAllPricesPerDay()
     {
         try
         {
-            var pricesPerDay = _ctx.GetAllPriceTypes();
+            var pricesPerDay = _ctx.GetAllPriceRanges();
             return Ok(pricesPerDay);
         }
         catch (Exception)
@@ -57,12 +57,12 @@ public class FiltersController : ControllerBase
         }
     }
 
-    [HttpGet("get-fuel-types")]
+    [HttpGet("get-fuels")]
     public IActionResult GetAllFuelTypes()
     {
         try
         { 
-            var fuelTypes = _ctx.GetAllFuelTypes();
+            var fuelTypes = _ctx.GetAllFuels();
             return Ok(fuelTypes);
         }
         catch (Exception)

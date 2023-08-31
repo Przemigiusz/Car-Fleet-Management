@@ -3,10 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CarFleet_Project.Models.Tables
 {
-    public class CarbodyType
+    public class PriceRange
     {
-        public int typeId { get; set; }
-
-        public string typeName { get; set; } = "";
+        public int priceRangeId { get; set; }
+        private string priceRangeName { get; set; } = "";
     }
 }

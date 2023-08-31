@@ -1,11 +1,9 @@
+import { Vehicle } from "./Vehicle";
+
 export class EquipmentElement {
   elementId: number;
   elementName: string = "";
-
-  constructor(elementId?: number, elementName?: string) {
-    this.elementId = elementId!;
-    this.elementName = elementName!;
-  }
+  vehicles: Vehicle[] = [];
 
   public fromJSON(json: any) {
     for (let propName in json) {

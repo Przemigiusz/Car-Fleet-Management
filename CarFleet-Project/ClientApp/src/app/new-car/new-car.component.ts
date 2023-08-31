@@ -1,12 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VehiclesService } from '../../services/vehicles.service';
 import { EquipmentService } from '../../services/equipment.service';
+import { FiltersService } from '../../services/filters.service';
 import { AddCarInterface } from '../../interfaces/add-car.interface';
 import { Vehicle } from '../../models/Vehicle';
-import { VehicleImage } from '../../models/vehicleImage';
+import { VehicleImage } from '../../models/VehicleImage';
 import { EquipmentElement } from '../../models/EquipmentElement';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors } from '@angular/forms';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import { Brand } from '../../models/Brand';
+import { Model } from '../../models/Model';
+import { Fuel } from '../../models/Fuel';
+import { Carbody } from '../../models/Carbody';
+import { TransmissionType } from '../../models/TransmissionType';
 
 @Component({
   selector: 'new-car',
@@ -16,10 +22,19 @@ import { ReplaySubject, takeUntil } from 'rxjs';
 export class NewCarComponent implements OnInit, OnDestroy {
   private isExpanded = false;
   public addCarForm: FormGroup = new FormGroup({});
-  private equipment: EquipmentElement[];
-  public operationalEquipment: any[] ;
+
+  private equipment: EquipmentElement[]; //Whole equipment elements
+  public operationalEquipment: any[]; //Elements which are available in the car
+
+  public brands: Brand[];
+  public models: Model[];
+  public fuels: Fuel[];
+  public carbodies: Carbody[];
+  public transmissionTypes: TransmissionType[];
+
   private onDestroy$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
-  private images: VehicleImage[] = [];
+
+  private images: VehicleImage[] = []; //Photos of the car
 
   updateValue(opElement: any) {
     if (opElement.isChecked === false) {
@@ -30,7 +45,7 @@ export class NewCarComponent implements OnInit, OnDestroy {
  };
 
   constructor(private addCarService: VehiclesService, private getEquipmentElementsService: EquipmentService,
-    private formBuilder: FormBuilder) {}
+    private formBuilder: FormBuilder, private getFiltersService: FiltersService) {}
 
   public ngOnDestroy(): void {
     this.onDestroy$.next(true);
@@ -45,8 +60,38 @@ export class NewCarComponent implements OnInit, OnDestroy {
         this.equipment = r;
         this.operationalEquipment = [];
         for (let el of this.equipment) {
-          this.operationalEquipment.push({ elementId: el.elementId, elementName: el.elementName, isChecked: false });
+          this.operationalEquipment.push({ equipmentElement: el, isChecked: false });
         }
+      }, err => { console.log("error", err); });
+
+    this.getFiltersService.getCarbodies()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(r => {
+        this.carbodies = r;
+      }, err => { console.log("error", err); });
+
+    this.getFiltersService.getFuels()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(r => {
+        this.fuels = r;
+      }, err => { console.log("error", err); });
+
+    this.getFiltersService.getTransmissionTypes()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(r => {
+        this.transmissionTypes = r;
+      }, err => { console.log("error", err); });
+
+    this.getFiltersService.getModels()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(r => {
+        this.models = r;
+      }, err => { console.log("error", err); });
+
+    this.getFiltersService.getBrands()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(r => {
+        this.brands = r;
       }, err => { console.log("error", err); });
   };
 
@@ -58,7 +103,7 @@ export class NewCarComponent implements OnInit, OnDestroy {
       mileage: ['', Validators.required],
       fuelType: ['', Validators.required],
       doorsAmount: ['', Validators.required],
-      carBodyType: ['', Validators.required],
+      carbodyType: ['', Validators.required],
       vehicleImage: [null, Validators.required]
     })
   }
@@ -79,13 +124,13 @@ export class NewCarComponent implements OnInit, OnDestroy {
       console.log(this.addCarForm.errors);
       const formData: AddCarInterface = this.addCarForm.value;
       const newVehicle: Vehicle = new Vehicle();
-      newVehicle.brand = formData.brand;
-      newVehicle.model = formData.model;
+      newVehicle.brandId = formData.brand;
+      newVehicle.modelId = formData.model;
       newVehicle.yearOfProduction = formData.yearOfProduction;
       newVehicle.mileage = formData.mileage;
-      newVehicle.fuelType = formData.fuelType;
+      newVehicle.fuel = formData.fuelType;
       newVehicle.doorsAmount = formData.doorsAmount;
-      newVehicle.carBodyType = formData.carBodyType;
+      newVehicle.carbodyId = formData.carBodyType;
 
       for (let opElement of this.operationalEquipment) {
         if (opElement.isChecked === true) {

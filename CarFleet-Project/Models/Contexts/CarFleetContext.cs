@@ -2,6 +2,7 @@
 using CarFleet_Project.Models.Tables;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace CarFleet_Project.Models.Contexts
 {
@@ -13,12 +14,14 @@ namespace CarFleet_Project.Models.Contexts
 
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<EquipmentElement> EquipmentElements { get; set; }
-        public DbSet<PriceType> PriceTypes { get; set; }
+        public DbSet<PriceRange> PriceRanges { get; set; }
         public DbSet<SortingType> SortingTypes { get; set; }
-        public DbSet<CarbodyType> CarbodyTypes { get; set; }
-        public DbSet<FuelType> FuelTypes { get; set; }
+        public DbSet<Carbody> Carbodies { get; set; }
+        public DbSet<Fuel> Fuels { get; set; }
         public DbSet<TransmissionType> TransmissionTypes { get; set; }
         public DbSet<VehicleImage> VehicleImages { get; set; }
+        public DbSet<Model> Models { get; set; }
+        public DbSet<Brand> Brands { get; set; }
 
         public override int SaveChanges()
         {
@@ -33,31 +36,35 @@ namespace CarFleet_Project.Models.Contexts
         {
             return EquipmentElements;
         }
-        public IQueryable<PriceType> GetAllPriceTypes()
+        public IQueryable<PriceRange> GetAllPriceRanges()
         {
-            return PriceTypes;
+            return PriceRanges;
         }
         public IQueryable<SortingType> GetAllSortingTypes()
         {
             return SortingTypes;
         }
-        public IQueryable<CarbodyType> GetAllCarbodyTypes()
+        public IQueryable<Carbody> GetAllCarbodies()
         {
-            return CarbodyTypes;
+            return Carbodies;
         }
-        public IQueryable<FuelType> GetAllFuelTypes()
+        public IQueryable<Fuel> GetAllFuels()
         {
-            return FuelTypes;
+            return Fuels;
         }
         public IQueryable<TransmissionType> GetAllTransmissionTypes()
         {
             return TransmissionTypes;
         }
-
-        //public IQueryable<VehicleImage> GetVehicleImages(int vehicleId)
-        //{
-        //    return VehicleImages.Where(vh => vh.);
-        //}
+        public IQueryable<VehicleImage> GetVehicleImages(int vehicleId) {
+            return VehicleImages.Where(vi => vi.vehicle.vehicleId == vehicleId);
+        }
+        public IQueryable<Model> GetModels(int brandId) {
+            return Models.Where(m => m.brand.brandId == brandId);
+        }
+        public IQueryable<Brand> GetAllBrands() {
+            return Brands;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -74,37 +81,52 @@ namespace CarFleet_Project.Models.Contexts
             modelBuilder.Entity<SortingType>()
                 .HasKey(st => st.typeId);
 
-            modelBuilder.Entity<PriceType>()
-                .HasKey(pt => pt.priceId);
+            modelBuilder.Entity<PriceRange>()
+                .HasKey(pr => pr.priceRangeId);
 
-            modelBuilder.Entity<FuelType>()
-                .HasKey(ft => ft.typeId);
+            modelBuilder.Entity<Fuel>()
+                .HasKey(f => f.fuelId);
 
             modelBuilder.Entity<EquipmentElement>()
                 .HasKey(ee => ee.elementId);
 
-            modelBuilder.Entity<CarbodyType>()
-                .HasKey(ct => ct.typeId);
+            modelBuilder.Entity<Carbody>()
+                .HasKey(c => c.carbodyId);
 
             //RELATIONSHIPS
             modelBuilder.Entity<Vehicle>() //def many-to-many relationship vehicle - equipment
                 .HasMany(v => v.equipment)
-                .WithMany(e => e.vehicles);
+                .WithMany(ee => ee.vehicles);
 
-            modelBuilder.Entity<EquipmentElement>() //def many-to-many relationship equipment - vehicle
-                .HasMany(e => e.vehicles)
-                .WithMany(v => v.equipment);
+            modelBuilder.Entity<Vehicle>() //def many-to-many relationship vehicle - fuel
+                .HasMany(v => v.fuels)
+                .WithMany(f => f.vehicles);
 
             modelBuilder.Entity<Vehicle>() //def many-to-one relationship vehicle - vehicleImages
                 .HasMany(v => v.vehicleImages)
                 .WithOne(vi => vi.vehicle)
                 .HasForeignKey(vi => vi.imageId);
 
-            modelBuilder.Entity<VehicleImage>() //def one-to-many relationship vehicleImages - vehicle
-               .HasOne(vi => vi.vehicle)
-               .WithMany(v => v.vehicleImages)
-               .HasForeignKey(v => v.vehicle);
-            
+            modelBuilder.Entity<Vehicle>() //def many-to-one relationship vehicle - carbody
+                .HasOne(v => v.carbody)
+                .WithMany(c => c.vehicles)
+                .HasForeignKey(v => v.carbodyId);
+
+            modelBuilder.Entity<Vehicle>() //def many-to-one relationship vehicle - transmissionType
+                .HasOne(v => v.transmissionType)
+                .WithMany(tt => tt.vehicles)
+                .HasForeignKey(v => v.transmissionTypeId);
+
+            modelBuilder.Entity<Vehicle>() //def many-to-one relationship vehicle - model
+                .HasOne(v => v.model)
+                .WithMany(m => m.vehicles)
+                .HasForeignKey(v => v.modelId);
+
+            modelBuilder.Entity<Vehicle>() //def many-to-one relationship vehicle - brand
+                .HasOne(v => v.brand)
+                .WithMany(b => b.vehicles)
+                .HasForeignKey(v => v.brandId);
+
         }
     }
 }
