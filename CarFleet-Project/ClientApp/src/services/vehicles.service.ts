@@ -14,8 +14,12 @@ export class VehiclesService {
     return this.http.post<Vehicle>(`${this.baseUrl}/post-vehicle`, vehicle);
   }
 
-  addVehicleImage(file: VehicleImage): Observable<VehicleImage> {
-    return this.http.post<VehicleImage>(`${this.baseUrl}/post-image`, file);
+  addVehicleImages(vehicleImages: VehicleImage[]): Observable<VehicleImage[]> {
+    return this.http.post<VehicleImage[]>(`${this.baseUrl}/post-image`, vehicleImages);
+  }
+
+  getVehiclesImages(): Observable<VehicleImage[]> {
+    return this.http.get<VehicleImage[]>(`${this.baseUrl}/get-vehicles-images`);
   }
 
   getVehicles(): Observable<Vehicle[]> {

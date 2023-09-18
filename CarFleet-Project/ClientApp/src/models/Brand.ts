@@ -3,9 +3,14 @@ import { Vehicle } from "./Vehicle";
 
 export class Brand
 {
-  brandId: number = 0;
-  brandName: string = "";
+  brandId: number;
+  brandName: string;
   vehicles: Vehicle[] = [];
   models: Model[] = [];
+
+  constructor() {
+    this.brandId = 0;
+    this.brandName = "";
+  }
 }
 

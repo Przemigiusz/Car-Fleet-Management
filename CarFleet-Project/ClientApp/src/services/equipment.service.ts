@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map} from 'rxjs';
 import { EquipmentElement } from '../models/EquipmentElement';
 
 @Injectable()
@@ -12,8 +12,8 @@ export class EquipmentService {
   getEquipmentElements(): Observable<EquipmentElement[]> {
     return this.http.get<EquipmentElement[]>(`${this.baseUrl}/get-equipment-elements`).pipe(
       map(r => {
-        var result = new Array<EquipmentElement>();
-        r.forEach(v => result.push(new EquipmentElement().fromJSON(v)));
+        const result = new Array<EquipmentElement>();
+        r.forEach(ee => result.push(new EquipmentElement().fromJSON(ee)));
         return result;
       })
     );

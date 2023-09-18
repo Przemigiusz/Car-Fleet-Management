@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer-menu.component.css'],
 })
 export class FooterMenuComponent {
-  logoUrl: string = 'assets/images/logo-footer.png';
+  logoUrl = 'assets/images/logo-footer.png';
 }

@@ -1,57 +1,87 @@
+<!--<div class="col-6 col-sm-3">.col-6 .col-sm-3</div>-->
+<!--DO BREAKPOINTA SM: COL-6
+POWYŻEJ BREAKPOINTA SM: COL-3-->
+
 <footer>
   <div class="container-fluid footerContainer">
-    <div class="row justify-content-around">
-      <div class="col-3 w-auto">
-        <img [src]="logoUrl" alt="logo" />
+    <div class="row">
+      <div class="col-3 d-none d-md-block">
+        <div class="row">
+          <div class="col-12 d-flex justify-content-center">
+            <img class="logo" [src]="logoUrl" alt="logo"/>
+          </div>
+        </div>
       </div>
-      <div class="col-3 w-auto">
-        <label for="informations" class="footerHeader">Informacje</label>
-        <ul id="informations">
-          <li>
-            <a class="nav-link" href="#">News</a>
-          </li>
-          <li>
-            <a class="nav-link" href="#">Konakt</a>
-          </li>
-          <li>
-            <a class="nav-link" href="#">Kariera</a>
-          </li>
-          <li>
-            <a class="nav-link" href="#">FAQ</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-3 w-auto">
-        <label for="find-us" class="footerHeader">Informacje</label>
-        <ul id="find-us">
-          <li>
-            <a class="nav-link" href="#">Facebook</a>
-          </li>
-          <li>
-            <a class="nav-link" href="#">Instagram</a>
-          </li>
-          <li>
-            <a class="nav-link" href="#">Twitter</a>
-          </li>
-          <li>
-            <a class="nav-link" href="#">Youtube</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-3 w-auto">
-        <label for="documents" class="footerHeader">Dokumenty</label>
-        <ul id="documents">
-          <li>
-            <a class="nav-link" href="#">Polityka Prywatności</a>
-          </li>
-          <li>
-            <a class="nav-link" href="#">Regulamin</a>
-          </li>
-          <li>
-            <a class="nav-link" href="#">Rodo</a>
-          </li>
-        </ul>
-      </div>
+      <div class="col-md-9 col-12">
+        <div class="row">
+          <div class="col-4">
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center">
+                <div>
+                  <label for="informations" class="footerHeader">Informacje</label>
+                  <ul id="informations">
+                    <li>
+                      <a class="nav-link" href="#">News</a>
+                    </li>
+                    <li>
+                      <a class="nav-link" href="#">Kontakt</a>
+                    </li>
+                    <li>
+                      <a class="nav-link" href="#">Kariera</a>
+                    </li>
+                    <li>
+                      <a class="nav-link" href="#">FAQ</a>
+                    </li>
+                  </ul>
+                </div>  
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center">
+                <div>
+                  <label for="find-us" class="footerHeader">Znajdź nas</label>
+                  <ul id="find-us">
+                    <li>
+                      <a class="nav-link" href="#">Facebook</a>
+                    </li>
+                    <li>
+                      <a class="nav-link" href="#">Instagram</a>
+                    </li>
+                    <li>
+                      <a class="nav-link" href="#">Twitter</a>
+                    </li>
+                    <li>
+                      <a class="nav-link" href="#">Youtube</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="row">
+              <div class="col-12 d-flex justify-content-center">
+                <div>
+                  <label for="documents" class="footerHeader">Dokumenty</label>
+                  <ul id="documents">
+                    <li>
+                      <a class="nav-link" href="#">Polityka Prywatności</a>
+                    </li>
+                    <li>
+                      <a class="nav-link" href="#">Regulamin</a>
+                    </li>
+                    <li>
+                      <a class="nav-link" href="#">Rodo</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>  
     </div>
   </div>
 </footer>

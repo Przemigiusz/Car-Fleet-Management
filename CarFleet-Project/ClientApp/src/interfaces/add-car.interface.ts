@@ -3,7 +3,8 @@ export interface AddCarInterface {
   model: string;
   yearOfProduction: string;
   mileage: string;
-  fuelType: string;
+  fuels: string[];
   doorsAmount: string;
+  transmissionType: string;
   carBodyType: string;
 }

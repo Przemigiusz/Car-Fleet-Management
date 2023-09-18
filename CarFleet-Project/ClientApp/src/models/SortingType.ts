@@ -1,4 +1,9 @@
 export class SortingType {
-  typeId: number = 0;
-  typeName: string = "";
+  typeId: number;
+  typeName: string;
+
+  constructor() {
+    this.typeId = 0;
+    this.typeName = "";
+  }
 }

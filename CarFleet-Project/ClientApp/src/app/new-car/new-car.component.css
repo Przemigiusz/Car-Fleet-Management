@@ -22,3 +22,79 @@ section {
   --bs-btn-disabled-border-color: #7743DB;
   --bs-gradient: none;
 }
+
+.customSelect, .form-select {
+  padding: .375rem 2.25rem .375rem .75rem;
+  font-size: var(--bs-body-font-size);
+  font-weight: var(--bs-body-font-weight);
+  line-height: var(--bs-body-font-height);
+  color: var(--bs-gray);
+  border-style: var(--bs-border-style);
+  border-color: var(--bs-gray-400);
+  border-width: var(--bs-border-width);
+  border-radius: var(--bs-border-radius);
+  box-shadow: var(--bs-box-shadow-lg);
+  cursor: pointer;
+  background-color: var(--bs-white);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.customSelect:focus, .form-control:focus, .form-select:focus {
+  border-color: #7743DB;
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #7743DB;
+}
+
+.customSelect::after {
+  content: '\23F7';
+  position: absolute;
+  right: 25px;
+}
+
+.options {
+  color: var(--bs-gray-900);
+  border-style: solid;
+  border-color: var(--bs-gray-400);
+  border-width: 1px;
+  border-radius: var(--bs-border-radius);
+  cursor: pointer;
+  background-color: var(--bs-body-bg);
+  z-index: 9999;
+  left: calc(var(--bs-gutter-x) * .5);
+  right: calc(var(--bs-gutter-x) * .5);
+}
+
+
+.option, .in-select {
+  padding: var(--bs-border-radius) .75rem;
+  font-size: var(--bs-body-font-size);
+  font-weight: var(--bs-body-font-weight);
+  line-height: var(--bs-body-line-height);
+}
+
+.option:first-child {
+  border-top-left-radius: var(--bs-border-radius);
+  border-top-right-radius: var(--bs-border-radius);
+}
+
+.option:last-child, .in-select {
+  border-bottom-right-radius: var(--bs-border-radius);
+  border-bottom-left-radius: var(--bs-border-radius);
+}
+
+.option:hover {
+  background-color: #666;
+  color: var(--bs-white);
+}
+
+.label-box {
+  padding-left: 5px;
+}
+
+#mileageInput {
+  border-radius: var(--bs-border-radius);
+}
+
+.field-message {
+  margin-top: 5px;
+  color: red;
+}

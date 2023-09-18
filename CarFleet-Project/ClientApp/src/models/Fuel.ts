@@ -1,7 +1,12 @@
 import { Vehicle } from "./Vehicle";
 
 export class Fuel {
-  fuelId: number = 0;
-  fuelName: string = "";
+  fuelId: number;
+  fuelName: string;
   vehicles: Vehicle[] = [];
+
+  constructor() {
+    this.fuelId = 0;
+    this.fuelName = "";
+  }
 }

@@ -1,0 +1,136 @@
+.glass {
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  z-index: 9999;
+}
+
+.loading-spinner {
+  display: flex;
+  position: sticky;
+  height: 10rem;
+  width: 10rem;
+  left: calc(50% - 5rem);
+  top: calc(50% - 5rem);
+  border-radius: 0.75rem;
+  transform: rotate(0.5turn);
+}
+
+.pillar {
+  width: 25%;
+  background-color: #7743DB;
+  border-radius: 0.75rem;
+}
+
+.firstPillar {
+  margin-right: 5px;
+  animation: changeHeightP1 3s linear infinite;
+}
+
+.secondPillar {
+  margin-right: 5px;
+  animation: changeHeightP2 3s linear infinite;
+}
+
+.thirdPillar {
+  margin-right: 5px;
+  animation: changeHeightP3 3s linear infinite;
+}
+
+.fourthPillar {
+  animation: changeHeightP4 3s linear infinite;
+}
+
+@keyframes changeHeightP1 {
+  0% {
+    height: 10%;
+  }
+
+  25% {
+    height: 100%;
+  }
+
+  50% {
+    height: 70%;
+  }
+
+  75% {
+    height: 100%;
+  }
+
+  100% {
+    height: 10%;
+  }
+}
+
+@keyframes changeHeightP2 {
+  0% {
+    height: 10%;
+  }
+
+  25% {
+    height: 70%;
+  }
+
+  50% {
+    height: 40%;
+  }
+
+  75% {
+    height: 50%;
+  }
+
+  100% {
+    height: 10%;
+  }
+}
+
+@keyframes changeHeightP3 {
+  0% {
+    height: 50%;
+  }
+
+  25% {
+    height: 100%;
+  }
+
+  50% {
+    height: 70%;
+  }
+
+  75% {
+    height: 100%;
+  }
+
+  100% {
+    height: 50%;
+  }
+}
+
+@keyframes changeHeightP4 {
+  0% {
+    height: 30%;
+  }
+
+  25% {
+    height: 100%;
+  }
+
+  50% {
+    height: 40%;
+  }
+
+  75% {
+    height: 90%;
+  }
+
+  100% {
+    height: 30%;
+  }
+}

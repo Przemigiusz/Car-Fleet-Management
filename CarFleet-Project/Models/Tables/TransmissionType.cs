@@ -7,7 +7,7 @@ namespace CarFleet_Project.Models.Tables
     {
         public int typeId { get; set; }
         public string typeName { get; set; } = "";
-        private int vehicleId;
+        public int vehicleId;
         public virtual List<Vehicle> vehicles { get; set; } = null!;
     }
 }

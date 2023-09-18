@@ -1,7 +1,12 @@
 import { Vehicle } from './Vehicle'
 
 export class TransmissionType {
-  typeId: number = 0;
-  typeName: string = "";
+  typeId: number;
+  typeName: string;
   vehicles: Vehicle[] = [];
+
+  constructor() {
+    this.typeId = 0;
+    this.typeName = "";
+  }
 }

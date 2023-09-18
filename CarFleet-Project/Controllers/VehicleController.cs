@@ -16,6 +16,9 @@ namespace CarFleet_Project.Controllers;
 public class FilterController : ControllerBase
 {
     ICarFleetContext _ctx;
+
+    private int pageSize = 10;
+    private int vehicleId = 0;
     public FilterController(ICarFleetContext ctx)
     {
         _ctx = ctx;
@@ -72,12 +75,32 @@ public class FilterController : ControllerBase
         return Ok(vehicleImage);
     }
 
+    [HttpGet("get-vehicles-images")]
+    public IActionResult GetVehiclesImages()
+    {
+        try
+        {
+            var vehicles = _ctx.GetAllVehicles().Include(c => c.equipment).ToList();
+
+            return Ok(vehicles);
+        }
+        catch (Exception)
+        {
+            return BadRequest("There is a problem with getting images info from db");
+        }
+    }
+
     [HttpGet("get-vehicles")] 
     public IActionResult GetVehicles()
     {
         try
         {
-            var vehicles = _ctx.GetAllVehicles().Include(c => c.equipment).ToList();
+            var vehicles = _ctx.GetAllVehicles()
+                //.Include(v => v.equipment)
+                .OrderBy(v => v.vehicleId)
+                .Where(v => v.vehicleId > vehicleId)
+                .Take(pageSize)
+                .ToList();
 
             return Ok(vehicles);
         }

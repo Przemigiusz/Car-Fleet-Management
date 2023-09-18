@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { FooterMenuComponent } from './footer-menu/footer-menu.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 
+import { LoadingSpinnerModule } from './loading-spinner/loading-spinner.module'
+
 
 @NgModule({
   declarations: [
@@ -15,6 +17,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
     NavMenuComponent,
   ],
   imports: [
+    LoadingSpinnerModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     RouterModule.forRoot([
@@ -28,9 +31,9 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
       {
         path: 'new-car', loadChildren: () => import('./new-car/new-car.module')
           .then(m => m.NewCarModule) },
-    ])
+    ]),
   ],
   providers: [],
-  bootstrap: [AppComponent, FooterMenuComponent, NavMenuComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

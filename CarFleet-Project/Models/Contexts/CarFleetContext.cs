@@ -22,6 +22,7 @@ namespace CarFleet_Project.Models.Contexts
         public DbSet<VehicleImage> VehicleImages { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<YearOfProduction> Years { get; set; }
 
         public override int SaveChanges()
         {
@@ -65,6 +66,10 @@ namespace CarFleet_Project.Models.Contexts
         public IQueryable<Brand> GetAllBrands() {
             return Brands;
         }
+        public IQueryable<YearOfProduction> GetAllYears()
+        {
+            return Years;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -93,6 +98,12 @@ namespace CarFleet_Project.Models.Contexts
             modelBuilder.Entity<Carbody>()
                 .HasKey(c => c.carbodyId);
 
+            modelBuilder.Entity<Model>()
+                .HasKey(m => m.modelId);
+
+            modelBuilder.Entity<YearOfProduction>()
+                .HasKey(y => y.yearId);
+
             //RELATIONSHIPS
             modelBuilder.Entity<Vehicle>() //def many-to-many relationship vehicle - equipment
                 .HasMany(v => v.equipment)
@@ -105,28 +116,44 @@ namespace CarFleet_Project.Models.Contexts
             modelBuilder.Entity<Vehicle>() //def many-to-one relationship vehicle - vehicleImages
                 .HasMany(v => v.vehicleImages)
                 .WithOne(vi => vi.vehicle)
-                .HasForeignKey(vi => vi.imageId);
+                .HasForeignKey(vi => vi.vehicleId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Vehicle>() //def many-to-one relationship vehicle - carbody
                 .HasOne(v => v.carbody)
                 .WithMany(c => c.vehicles)
-                .HasForeignKey(v => v.carbodyId);
+                .HasForeignKey(v => v.carbodyId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Vehicle>() //def many-to-one relationship vehicle - transmissionType
                 .HasOne(v => v.transmissionType)
                 .WithMany(tt => tt.vehicles)
-                .HasForeignKey(v => v.transmissionTypeId);
+                .HasForeignKey(v => v.transmissionTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Vehicle>() //def many-to-one relationship vehicle - model
                 .HasOne(v => v.model)
                 .WithMany(m => m.vehicles)
-                .HasForeignKey(v => v.modelId);
+                .HasForeignKey(v => v.modelId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Vehicle>() //def many-to-one relationship vehicle - brand
                 .HasOne(v => v.brand)
                 .WithMany(b => b.vehicles)
-                .HasForeignKey(v => v.brandId);
+                .HasForeignKey(v => v.brandId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Brand>() //def one-to-many relationship brand - model
+                .HasMany(b => b.models)
+                .WithOne(m => m.brand)
+                .HasForeignKey(m => m.brandId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Vehicle>() //def one-to-many relationship vehicle - yearOfProduction
+                .HasOne(v => v.yearOfProduction)
+                .WithMany(y => y.vehicles)
+                .HasForeignKey(v => v.yearId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/component-selector */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VehiclesService } from '../../services/vehicles.service'
 import { FiltersService } from '../../services/filters.service'
@@ -16,13 +17,13 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./fleet.component.css'],
 })
 export class FleetComponent implements OnInit, OnDestroy {
-  public mainBanner: string = 'assets/images/dope-cars-banner.png';
+  public mainBanner = 'assets/images/dope-cars-banner.png';
 
   public data: Vehicle[] = [];
-  public priceTypes: PriceRange[] = [];
+  public priceRanges: PriceRange[] = [];
   public sortingTypes: SortingType[] = [];
-  public carbodyTypes: Carbody[] = [];
-  public fuelTypes: Fuel[] = [];
+  public carbodies: Carbody[] = [];
+  public fuels: Fuel[] = [];
   public transmissionTypes: TransmissionType[] = [];
 
   private onDestroy$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
@@ -38,21 +39,21 @@ export class FleetComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.vehiclesService.getVehicles()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(r => { this.data = r; }, err => { console.log("error", err); }); 
+      .subscribe({ next: r => { this.data = r; }, error: err => { console.log("error", err); } }); 
     this.getFiltersService.getPriceRanges()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(r => { this.priceTypes = r; }, err => { console.log("error", err); });
+      .subscribe({ next: r => { this.priceRanges = r; }, error: err => { console.log("error", err); } });
     this.getFiltersService.getSortingTypes()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(r => { this.sortingTypes = r; }, err => { console.log("error", err); });
+      .subscribe({ next: r => { this.sortingTypes = r; }, error: err => { console.log("error", err); } });
     this.getFiltersService.getCarbodies()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(r => { this.carbodyTypes = r; }, err => { console.log("error", err); });
+      .subscribe({ next: r => { this.carbodies = r; }, error: err => { console.log("error", err); } });
     this.getFiltersService.getFuels()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(r => { this.fuelTypes = r; }, err => { console.log("error", err); });
+      .subscribe({ next: r => { this.fuels = r; }, error: err => { console.log("error", err); } });
     this.getFiltersService.getTransmissionTypes()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(r => { this.transmissionTypes = r; }, err => { console.log("error", err); });
+      .subscribe({ next: r => { this.transmissionTypes = r; }, error: err => { console.log("error", err); } });
   }
 }

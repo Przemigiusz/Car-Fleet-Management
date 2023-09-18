@@ -21,7 +21,7 @@
                   <p class="h5">Sortuj</p>
                   <select class="form-select" aria-label="Default select example">
                     <option selected>Wybierz typ</option>
-                    <option *ngFor="let sort of sortingTypes; let i = index" value="{{i+1}}">{{sort.typeName}}</option>
+                    <option *ngFor="let sort of sortingTypes; let i = index" [value]="i+1">{{sort.typeName}}</option>
                   </select>
                 </div>
               </div>
@@ -48,9 +48,9 @@
             <div class="col-12">
               <h5>Rodzaj Paliwa</h5>
               <div class="row">
-                <div class="col m-1" *ngFor="let fuel of fuelTypes">
-                  <input type="checkbox" class="btn-check" id="{{fuel.typeName}}Btn" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="{{fuel.typeName}}Btn">{{fuel.typeName}}</label>
+                <div class="col m-1" *ngFor="let fuel of fuels">
+                  <input type="checkbox" class="btn-check" id="{{fuel.fuelName}}Btn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="{{fuel.fuelName}}Btn">{{fuel.fuelName}}</label>
                 </div>
               </div>
             </div>
@@ -58,9 +58,9 @@
             <div class="col-12">
               <h5>Cena Za Dzień</h5>
               <div class="row">
-                <div class="col-12 m-1" *ngFor="let price of priceTypes">
-                  <input type="checkbox" class="btn-check" id="{{price.typeName}}Btn" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="{{price.typeName}}Btn">{{price.typeName}}</label>
+                <div class="col-12 m-1" *ngFor="let priceRange of priceRanges">
+                  <input type="checkbox" class="btn-check" id="Range{{priceRange.priceRangeId}}Btn" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="Range{{priceRange.priceRangeId}}Btn">{{priceRange.priceRangeMin}}-{{priceRange.priceRangeMax}}</label>
                 </div>
               </div>
             </div>
@@ -68,9 +68,9 @@
             <div class="col-12">
               <h5>Typ Nadwozia</h5>
               <div class="row">
-                <div class="col-12 m-1" *ngFor="let carbody of carbodyTypes">
-                  <input type="checkbox" class="btn-check" id="{{carbody.typeName}}" autocomplete="off">
-                  <label class="btn btn-outline-primary" for="{{carbody.typeName}}">{{carbody.typeName}}</label>
+                <div class="col-12 m-1" *ngFor="let carbody of carbodies">
+                  <input type="checkbox" class="btn-check" id="{{carbody.carbodyName}}" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="{{carbody.carbodyName}}">{{carbody.carbodyName}}</label>
                 </div>
               </div>
             </div>
@@ -96,13 +96,13 @@
           <div class="row" *ngFor="let vehicle of data">
             <div class="col-12 card mb-3">
               <div class="row">
-                <div class="col-3">
+                <!--<div class="col-3">
                   <img [src]="vehicle.imgURL" class="card-img-top" alt="Photo of the car">
-                </div>
-                <div class="col-9">
+                </div>-->
+                <!--<div class="col-9">
                   <div class="row">
                     <div class="col-12">
-                      <h5 class="card-title">{{vehicle.brand}} {{vehicle.model}}</h5>
+                      <h5 class="card-title">{{vehicle.brand.brandName}} {{vehicle.model}}</h5>
                     </div>
                     <div class="col-12 mt-2">
                       <h6 class="card-title">{{vehicle.yearOfProduction}} {{vehicle.mileage}} {{vehicle.fuelType}}</h6>
@@ -111,7 +111,7 @@
                       <h6 class="card-title">{{vehicle.doorsAmount}} {{vehicle.carBodyType}}</h6>
                     </div>
                   </div>
-                </div>
+                </div>-->
               </div>
             </div>
           </div>

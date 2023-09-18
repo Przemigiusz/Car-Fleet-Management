@@ -53,7 +53,7 @@ public class FiltersController : ControllerBase
         }
         catch (Exception)
         {
-            return BadRequest("There is a problem with getting price types");
+            return BadRequest("There is a problem with getting price ranges");
         }
     }
 
@@ -72,7 +72,7 @@ public class FiltersController : ControllerBase
     }
 
     [HttpGet("get-transmission-types")]
-    public IActionResult GetAllTransmissionsTypes()
+    public IActionResult GetAllTransmissionTypes()
     {
         try
         {
@@ -82,6 +82,48 @@ public class FiltersController : ControllerBase
         catch (Exception)
         {
             return BadRequest("There is a problem with getting transmission types");
+        }
+    }
+
+    [HttpGet("get-models")]
+    public IActionResult GetModels(int brandId)
+    {
+        try
+        {
+            var transmissionTypes = _ctx.GetModels(brandId);
+            return Ok(transmissionTypes);
+        }
+        catch (Exception)
+        {
+            return BadRequest("There is a problem with getting models connected with that brandId");
+        }
+    }
+
+    [HttpGet("get-brands")]
+    public IActionResult GetAllBrands()
+    {
+        try
+        {
+            var transmissionTypes = _ctx.GetAllBrands();
+            return Ok(transmissionTypes);
+        }
+        catch (Exception)
+        {
+            return BadRequest("There is a problem with getting brands");
+        }
+    }
+
+    [HttpGet("get-years")]
+    public IActionResult GetAllYears()
+    {
+        try
+        {
+            var years = _ctx.GetAllYears();
+            return Ok(years);
+        }
+        catch (Exception)
+        {
+            return BadRequest("There is a problem with getting years of production");
         }
     }
 }

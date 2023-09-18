@@ -1,28 +1,34 @@
 import { EquipmentElement } from "./EquipmentElement";
-import { Model } from "./Model";
-import { Brand } from "./Brand";
 import { Fuel } from "./Fuel";
-import { Carbody } from "./Carbody";
-import { TransmissionType } from "./TransmissionType";
 import { VehicleImage } from "./VehicleImage";
 
 export class Vehicle {
-  vehicleId: number = 0;
+  vehicleId: number;
 
-  brandId: number = 0;
+  brandId: number;
 
-  modelId: number = 0;
+  modelId: number;
 
   fuels: Fuel[] = []
 
-  carbodyId: number = 0;
+  carbodyId: number;
 
-  transmissionTypeId: number = 0;
+  transmissionTypeId: number;
+
+  yearOfProductionId: number;
 
   vehicleImages: VehicleImage[] = [];
   equipment: EquipmentElement[] = [];
 
-  yearOfProduction: string = '';
-  mileage: string = '';
-  doorsAmount: string = '';
+  mileage: string;
+
+  constructor() {
+    this.vehicleId = 0;
+    this.brandId = 0;
+    this.modelId = 0;
+    this.carbodyId = 0;
+    this.transmissionTypeId = 0;
+    this.yearOfProductionId = 0;
+    this.mileage = "";
+  }
 }

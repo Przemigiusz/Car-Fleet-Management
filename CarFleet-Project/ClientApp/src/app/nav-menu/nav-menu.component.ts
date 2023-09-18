@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = false;
-  logoUrl: string = 'assets/images/logo-navbar.png';
+  logoUrl = 'assets/images/logo-navbar.png';
 
   collapse() {
     this.isExpanded = false;

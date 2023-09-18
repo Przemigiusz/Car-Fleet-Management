@@ -8,6 +8,7 @@ import { TransmissionType } from '../models/TransmissionType';
 import { Observable } from 'rxjs';
 import { Model } from '../models/Model';
 import { Brand } from '../models/Brand';
+import { YearOfProduction } from '../models/YearOfProduction';
 
 @Injectable()
 export class FiltersService {
@@ -35,5 +36,8 @@ export class FiltersService {
   }
   getModels(): Observable<Model[]> {
     return this.http.get<Model[]>(`${this.baseUrl}/get-models`);
+  }
+  getYears(): Observable<YearOfProduction[]> {
+    return this.http.get<YearOfProduction[]>(`${this.baseUrl}/get-years`);
   }
 }

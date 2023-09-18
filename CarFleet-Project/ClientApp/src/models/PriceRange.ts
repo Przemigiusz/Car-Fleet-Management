@@ -1,4 +1,11 @@
 export class PriceRange {
-  priceRangeId: number = 0;
-  priceRangeName: string = "";
+  priceRangeId: number;
+  priceRangeMin: string;
+  priceRangeMax: string;
+
+  constructor() {
+    this.priceRangeId = 0;
+    this.priceRangeMin = "";
+    this.priceRangeMax = "";
+  }
 }

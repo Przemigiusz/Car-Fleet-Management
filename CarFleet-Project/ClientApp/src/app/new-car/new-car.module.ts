@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { VehiclesService } from '../../services/vehicles.service';
 import { EquipmentService } from '../../services/equipment.service';
 import { NewCarComponent } from './new-car.component';
+import { FiltersService } from '../../services/filters.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { NewCarComponent } from './new-car.component';
       { path: '', component: NewCarComponent, pathMatch: 'full' },
     ])
   ],
-  providers: [VehiclesService, EquipmentService],
+  providers: [VehiclesService, EquipmentService, FiltersService],
   bootstrap: []
 })
 export class NewCarModule { }

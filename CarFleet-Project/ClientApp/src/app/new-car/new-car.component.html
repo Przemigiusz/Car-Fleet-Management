@@ -2,85 +2,117 @@
   <form [formGroup]="addCarForm" (ngSubmit)="submitForm()">
     <div class="container-fluid">
       <div class="row justify-content-center">
-        <div class="col-8">
-          <div class="mb-3">
-            <label for="BrandDataList" class="form-label">Marka</label>
-            <input formControlName="brand" class="form-control" list="datalistOptions" id="BrandDataList" placeholder="Marka">
-            <datalist id="BrandDatalistOptions">
-              <option value="{{brand.brandName}}" ngFor="let brand of brands">
-            </datalist>
+        <div class="col-8 mb-3">
+          <label for="BrandSelect" class="form-label">Marka pojazdu</label>
+          <select formControlName="brand" class="form-select" id="BrandSelect" (change)="changeStateOfModels()">
+            <option value="" selected>Marka pojazdu</option>
+            <option *ngFor="let brand of brands" [value]="brand.brandName">{{brand.brandName}}</option>
+          </select>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('brand')?.hasError('required')">
+            Marka pojazdu jest wymagana.
+          </div>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('brand')?.hasError('isAnOption')">
+            Marka pojazdu musi należeć do podanych.
           </div>
         </div>
-        <div class="col-8">
-          <div class="mb-3">
-            <label for="ModelDataList" class="form-label">Model</label>
-            <input formControlName="model" class="form-control" list="datalistOptions" id="ModelDataList" placeholder="Model">
-            <datalist id="ModelDatalistOptions">
-              <option value="{{model.modelName}}" ngFor="let model of models">
-            </datalist>
+        <div class="col-8 mb-3">
+          <label for="ModelSelect" class="form-label">Model Pojazdu</label>
+          <select formControlName="model" class="form-select" id="ModelSelect">
+            <option value="" selected>Model pojazdu</option>
+            <option *ngFor="let model of models" [value]="model.modelName">{{model.modelName}}</option>
+          </select>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('model')?.hasError('required')">
+            Model pojazdu jest wymagany.
+          </div>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('model')?.hasError('isAnOption')">
+            Model pojazdu musi należeć do podanych.
           </div>
         </div>
-        <div class="col-8">
-          <div class="input-group mb-3">
-            <label for="exampleDataList" class="form-label w-100">Rok Produkcji</label>
-            <input formControlName="yearOfProduction" type="text" class="form-control" placeholder="Rok produkcji" aria-label="Rok produkcji" aria-describedby="basic-addon1">
+        <div class="col-8 mb-3">
+          <label for="YearOfProdSelect" class="form-label">Rok produkcji</label>
+          <select formControlName="yearOfProduction" class="form-select" id="YearOfProdSelect">
+            <option value="" selected>Rok produkcji</option>
+            <option *ngFor="let year of years" [value]="year.year">{{year.year}}</option>
+          </select>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('yearOfProduction')?.hasError('required')">
+            Rok produkcji jest wymagany.
+          </div>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('yearOfProduction')?.hasError('isAnOption')">
+            Rok produkcji musi należeć do podanych.
           </div>
         </div>
-        <div class="col-8">
-          <div class="input-group mb-3">
-            <label for="exampleDataList" class="form-label w-100">Przebieg</label>
-            <input formControlName="mileage" type="text" class="form-control" placeholder="Przebieg" aria-label="Przebieg" aria-describedby="basic-addon1">
+        <div class="col-8 mb-3">
+          <div class="input-group">
+            <label for="mileageInput" class="form-label w-100">Przebieg</label>
+            <input formControlName="mileage" id="mileageInput" type="text" class="form-control" placeholder="Przebieg">
+          </div>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('mileage')?.hasError('required')">
+            Przebieg jest wymagany.
           </div>
         </div>
-        <div class="col-8">
-          <div class="mb-3">
-            <label for="FuelDataList" class="form-label">Rodzaj paliwa</label>
-            <input formControlName="fuelType" class="form-control" list="datalistOptions" id="FuelDataList" placeholder="Rodzaj paliwa">
-            <datalist id="FuelDatalistOptions">
-              <option value="{{fuel.fuelName}}" ngFor="let fuel of fuels">
-            </datalist>
+        <div class="col-8 mb-3 position-relative">
+          <label for="customSelect" class="form-label">Rodzaj paliwa</label>
+          <div class="customSelect" id="customSelect" (click)="displaySelectOptions()" tabindex="0">
+            <ng-container *ngIf="chosenFuels.length > 0; else elseBlock">
+              <span *ngFor="let fuel of chosenFuels">
+                {{fuel}}
+              </span>
+            </ng-container>
+            <ng-template #elseBlock>Wybierz rodzaj paliwa</ng-template>
+          </div>
+          <div class="options position-absolute w-auto" formGroupName="fuelsOptions" *ngIf="areFuelsLoaded && !optionsHidden">
+            <div class="option" *ngFor="let fuel of fuels">
+              <input type="checkbox" id="{{fuel.fuelName}}" name="{{fuel.fuelName}}" formControlName="{{fuel.fuelName}}" (change)="updateChoosenFuels(fuel.fuelName)" />
+              <label class="label-box" for="{{fuel.fuelName}}">{{fuel.fuelName}}</label>
+            </div>
+          </div>
+          <div class="field-message" *ngIf="optionsHidden && submitClicked && addCarForm.get('fuelsOptions')?.hasError('atLeastOne')">
+            Co najmniej 1 typ paliwa jest wymagany.
           </div>
         </div>
-        <div class="col-8">
-          <div class="input-group mb-3">
-            <label for="exampleDataList" class="form-label w-100">Liczba drzwi</label>
-            <input formControlName="doorsAmount" type="text" class="form-control" placeholder="Liczba drzwi" aria-label="Liczba drzwi" aria-describedby="basic-addon1">
+        <div class="col-8 mb-3">
+          <label for="TransmissionTypeSelect" class="form-label">Rodzaj skrzyni biegów</label>
+          <select formControlName="transmissionType" class="form-select" id="TransmissionTypeSelect">
+            <option value="" selected>Rodzaj skrzyni biegów</option>
+            <option *ngFor="let transmissionType of transmissionTypes" [value]="transmissionType.typeName">{{transmissionType.typeName}}</option>
+          </select>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('transmissionType')?.hasError('required')">
+            Rodzaj skrzyni biegów jest wymagany.
+          </div>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('transmissionType')?.hasError('isAnOption')">
+            Typ skrzyni biegów musi należeć do podanych.
           </div>
         </div>
-        <div class="col-8">
-          <div class="mb-3">
-            <label for="TransmissionTypeDataList" class="form-label">Rodzaj skrzyni biegów</label>
-            <input formControlName="carbodyType" class="form-control" list="datalistOptions" id="TransmissionTypeDataList" placeholder="Rodzaj skrzyni biegów">
-            <datalist id="TransmissionTypeDatalistOptions">
-              <option value="{{transmissionType.typeName}}" ngFor="let transmissionType of transmissionTypes">
-            </datalist>
+        <div class="col-8 mb-3">
+          <label for="CarbodySelect" class="form-label">Rodzaj nadwozia</label>
+          <select formControlName="carbodyType" class="form-select" id="CarbodySelect">
+            <option value="" selected>Rodzaj nadwozia</option>
+            <option *ngFor="let carbody of carbodies" [value]="carbody.carbodyName">{{carbody.carbodyName}}</option>
+          </select>    
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('carbodyType')?.hasError('required')">
+            Rodzaj nadwozia jest wymagany.
+          </div>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('carbodyType')?.hasError('isAnOption')">
+            Rodzaj nadwozia musi należeć do podanych.
           </div>
         </div>
-        <div class="col-8">
-          <div class="mb-3">
-            <label for="CarbodyDataList" class="form-label">Rodzaj nadwozia</label>
-            <input formControlName="carbodyType" class="form-control" list="datalistOptions" id="CarbodyDataList" placeholder="Rodzaj nadwozia">
-            <datalist id="CarbodyDatalistOptions">
-              <option value="{{carbody.carbodyName}}" ngFor="let carbody of carbodies">
-            </datalist>
-          </div>
-        </div>
-        <div class="col-8">
-          <div class="mb-3">
-            <label for="vehicleImage" class="form-label">Zdjęcie pojazdu</label>
-            <input formControlName="vehicleImage" class="form-control" id="vehicleImage" type="file" (change)="fileChanged($event)" multiple>
+        <div class="col-8 mb-3">
+          <label for="vehicleImage" class="form-label">Zdjęcia pojazdu</label>
+          <input formControlName="vehicleImage" class="form-control" id="vehicleImage" type="file" (change)="fileChanged($event)" multiple>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('vehicleImage')?.hasError('required')">
+            Zdjęcia pojazdu są wymagane(min. 1).
           </div>
         </div>
         <div class="col-8 mb-5">
           <div class="row">
             <div class="col-4 mb-2 d-flex justify-content-center" *ngFor="let opElement of operationalEquipment">
-              <input type="checkbox" class="btn-check" id="{{opElement.elementName}}" autocomplete="off" (click)="updateValue(opElement)">
-              <label class="btn btn-outline-primary" for="{{opElement.elementName}}">{{opElement.elementName}}</label>
+              <input type="checkbox" class="btn-check" id="{{opElement.eqElement.elementName}}" autocomplete="off" (click)="updateValue(opElement)">
+              <label class="btn btn-outline-primary" for="{{opElement.eqElement.elementName}}">{{opElement.eqElement.elementName}}</label>
             </div>
           </div>
         </div>
         <div class="col-8 d-flex justify-content-center">
-          <button type="submit" class="btn btn-primary w-auto submitBtn">Dodaj pojazd</button>
+          <button type="submit" class="btn btn-primary w-auto submitBtn" (click)="onSubmit()">Dodaj pojazd</button>
         </div>
       </div>
     </div>
