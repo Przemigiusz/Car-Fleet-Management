@@ -1,31 +1,31 @@
-<section class="mt-5 mb-5">
+<section class="pt-3 pb-3">
   <form [formGroup]="addCarForm" (ngSubmit)="submitForm()">
     <div class="container-fluid">
       <div class="row justify-content-center">
-        <div class="col-8 mb-3">
-          <label for="BrandSelect" class="form-label">Marka pojazdu</label>
-          <select formControlName="brand" class="form-select" id="BrandSelect" (change)="changeStateOfModels()">
-            <option value="" selected>Marka pojazdu</option>
-            <option *ngFor="let brand of brands" [value]="brand.brandName">{{brand.brandName}}</option>
-          </select>
-          <div class="field-message" *ngIf="submitClicked && addCarForm.get('brand')?.hasError('required')">
+        <div class="col-8 mb-3 position-relative customBrandSelectAlias customBrandSelect">
+          <label for="customBrandSelect" class="form-label">Marka pojazdu</label>
+          <input [(ngModel)]="brandSearchTerm" [ngModelOptions]="{ standalone: true }" type="text" class="form-control" placeholder="Marka pojazdu" (click)="displayBrandSelectOptions()">
+          <div class="options position-absolute w-auto" formGroupName="brandOptions" *ngIf="areBrandsLoaded && !brandOptionsHidden">
+            <div class="option d-flex" *ngFor="let brand of filterBrands()">
+              <input type="checkbox" id="{{brand.brandName}}" name="{{brand.brandName}}" formControlName="{{brand.brandName}}" (change)="updateChoice('brand', brand.brandName)" />
+              <label class="label-box flex-grow-1" for="{{brand.brandName}}">{{brand.brandName}}</label>
+            </div>
+          </div>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('brandOptions')?.hasError('atLeastOne')">
             Marka pojazdu jest wymagana.
           </div>
-          <div class="field-message" *ngIf="submitClicked && addCarForm.get('brand')?.hasError('isAnOption')">
-            Marka pojazdu musi należeć do podanych.
-          </div>
         </div>
-        <div class="col-8 mb-3">
-          <label for="ModelSelect" class="form-label">Model Pojazdu</label>
-          <select formControlName="model" class="form-select" id="ModelSelect">
-            <option value="" selected>Model pojazdu</option>
-            <option *ngFor="let model of models" [value]="model.modelName">{{model.modelName}}</option>
-          </select>
-          <div class="field-message" *ngIf="submitClicked && addCarForm.get('model')?.hasError('required')">
-            Model pojazdu jest wymagany.
+        <div class="col-8 mb-3 position-relative customModelSelectAlias customModelSelect">
+          <label for="customModelSelect" class="form-label">Marka pojazdu</label>
+          <input [(ngModel)]="modelSearchTerm" [ngModelOptions]="{ standalone: true }" type="text" class="form-control" placeholder="Model pojazdu" (click)="displayModelSelectOptions()">
+          <div class="options position-absolute w-auto" formGroupName="modelOptions" *ngIf="!modelOptionsHidden">
+            <div class="option d-flex" *ngFor="let model of filterModels()">
+              <input type="checkbox" id="{{model.modelName}}" name="{{model.modelName}}" formControlName="{{model.modelName}}" (change)="updateChoice('model', model.modelName)" />
+              <label class="label-box flex-grow-1" for="{{model.modelName}}">{{model.modelName}}</label>
+            </div>
           </div>
-          <div class="field-message" *ngIf="submitClicked && addCarForm.get('model')?.hasError('isAnOption')">
-            Model pojazdu musi należeć do podanych.
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('modelOptions')?.hasError('atLeastOne')">
+            Model pojazdu jest wymagany.
           </div>
         </div>
         <div class="col-8 mb-3">
@@ -37,9 +37,6 @@
           <div class="field-message" *ngIf="submitClicked && addCarForm.get('yearOfProduction')?.hasError('required')">
             Rok produkcji jest wymagany.
           </div>
-          <div class="field-message" *ngIf="submitClicked && addCarForm.get('yearOfProduction')?.hasError('isAnOption')">
-            Rok produkcji musi należeć do podanych.
-          </div>
         </div>
         <div class="col-8 mb-3">
           <div class="input-group">
@@ -49,10 +46,13 @@
           <div class="field-message" *ngIf="submitClicked && addCarForm.get('mileage')?.hasError('required')">
             Przebieg jest wymagany.
           </div>
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('mileage')?.hasError('pattern')">
+            Przebieg może przyjmować tylko wartości liczbowe.
+          </div>
         </div>
-        <div class="col-8 mb-3 position-relative">
+        <div class="col-8 mb-3 position-relative customFuelSelectAlias">
           <label for="customSelect" class="form-label">Rodzaj paliwa</label>
-          <div class="customSelect" id="customSelect" (click)="displaySelectOptions()" tabindex="0">
+          <div class="customSelect" id="customSelect" (click)="displayFuelSelectOptions()" tabindex="0">
             <ng-container *ngIf="chosenFuels.length > 0; else elseBlock">
               <span *ngFor="let fuel of chosenFuels">
                 {{fuel}}
@@ -60,13 +60,13 @@
             </ng-container>
             <ng-template #elseBlock>Wybierz rodzaj paliwa</ng-template>
           </div>
-          <div class="options position-absolute w-auto" formGroupName="fuelsOptions" *ngIf="areFuelsLoaded && !optionsHidden">
-            <div class="option" *ngFor="let fuel of fuels">
+          <div class="options position-absolute w-auto" formGroupName="fuelOptions" *ngIf="areFuelsLoaded && !fuelOptionsHidden">
+            <div class="option d-flex" *ngFor="let fuel of fuels">
               <input type="checkbox" id="{{fuel.fuelName}}" name="{{fuel.fuelName}}" formControlName="{{fuel.fuelName}}" (change)="updateChoosenFuels(fuel.fuelName)" />
-              <label class="label-box" for="{{fuel.fuelName}}">{{fuel.fuelName}}</label>
+              <label class="label-box flex-grow-1" for="{{fuel.fuelName}}">{{fuel.fuelName}}</label>
             </div>
           </div>
-          <div class="field-message" *ngIf="optionsHidden && submitClicked && addCarForm.get('fuelsOptions')?.hasError('atLeastOne')">
+          <div class="field-message" *ngIf="submitClicked && addCarForm.get('fuelOptions')?.hasError('atLeastOne')">
             Co najmniej 1 typ paliwa jest wymagany.
           </div>
         </div>
@@ -79,21 +79,15 @@
           <div class="field-message" *ngIf="submitClicked && addCarForm.get('transmissionType')?.hasError('required')">
             Rodzaj skrzyni biegów jest wymagany.
           </div>
-          <div class="field-message" *ngIf="submitClicked && addCarForm.get('transmissionType')?.hasError('isAnOption')">
-            Typ skrzyni biegów musi należeć do podanych.
-          </div>
         </div>
         <div class="col-8 mb-3">
           <label for="CarbodySelect" class="form-label">Rodzaj nadwozia</label>
           <select formControlName="carbodyType" class="form-select" id="CarbodySelect">
             <option value="" selected>Rodzaj nadwozia</option>
             <option *ngFor="let carbody of carbodies" [value]="carbody.carbodyName">{{carbody.carbodyName}}</option>
-          </select>    
+          </select>
           <div class="field-message" *ngIf="submitClicked && addCarForm.get('carbodyType')?.hasError('required')">
             Rodzaj nadwozia jest wymagany.
-          </div>
-          <div class="field-message" *ngIf="submitClicked && addCarForm.get('carbodyType')?.hasError('isAnOption')">
-            Rodzaj nadwozia musi należeć do podanych.
           </div>
         </div>
         <div class="col-8 mb-3">

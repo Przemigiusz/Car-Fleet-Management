@@ -29,8 +29,17 @@ namespace CarFleet_Project.Models.Interfaces
         IQueryable<TransmissionType> GetAllTransmissionTypes(); // All of them will always be loaded here
         IQueryable<VehicleImage> GetVehicleImages(int vehicleId); // If we have 20 cars loaded, there will be that many main photos,
                                                                   // if client decides to check out specific car, photos of that car will be loaded 
-        IQueryable<Model> GetModels(int brandId); // They will be loaded when the brand is choosen
+        IQueryable<Model> GetAllModels(); // They will be loaded when the brand is choosen
         IQueryable<Brand> GetAllBrands(); // All of them will always be loaded here
         IQueryable<YearOfProduction> GetAllYears(); // All of them will always be loaded here
+
+
+        ValueTask<Brand?> GetSpecificBrand(int brandId);
+        ValueTask<Model?> GetSpecificModel(int modelId);
+        ValueTask<Carbody?> GetSpecificCarbody(int carbodyId);
+        ValueTask<YearOfProduction?> GetSpecificYear(int yearId);
+        ValueTask<TransmissionType?> GetSpecificTransmissionType(int transmissionTypeId);
+        ValueTask<List<Fuel>> GetSpecificFuels(List<int> fuelIds);
+        ValueTask<List<EquipmentElement>> GetSpecificEquipment(List<int> equipmentIds);
     }
 }

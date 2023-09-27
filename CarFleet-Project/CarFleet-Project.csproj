@@ -33,7 +33,6 @@
     <None Remove="ClientApp\src\app\fleet\fleet.module.ts" />
     <None Remove="ClientApp\src\app\home\home.module.ts" />
     <None Remove="ClientApp\src\app\new-car\new-car.module.ts" />
-    <None Remove="ClientApp\src\interfaces\add-car.interface.ts" />
     <None Remove="ClientApp\src\interfaces\operational-equipment.interface.ts" />
     <None Remove="ClientApp\src\models\EquipmentElement.ts" />
     <None Remove="ClientApp\src\models\Vehicle.ts" />
@@ -50,7 +49,6 @@
     <TypeScriptCompile Include="ClientApp\src\app\home\home.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\new-car\new-car.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\operational-equipment.interface.ts" />
-    <TypeScriptCompile Include="ClientApp\src\interfaces\add-car.interface.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\EquipmentElement.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\VehicleImage.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\Vehicle.ts" />
@@ -59,6 +57,10 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\services\vehicles.service.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\reusable\" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -29,7 +29,7 @@
             <hr />
             <div class="col-12">
               <div class="row">
-                <h5>Marka/Model</h5>
+                <p class="h5">Marka/Model</p>
                 <div class="col-12">
                   <label for="BrandDataList" class="form-label">Brand</label>
                   <input class="form-control" list="BrandDatalistOptions" id="BrandDataList" placeholder="Brand">
@@ -46,7 +46,7 @@
             </div>
             <hr />
             <div class="col-12">
-              <h5>Rodzaj Paliwa</h5>
+              <p class="h5">Rodzaj Paliwa</p>
               <div class="row">
                 <div class="col m-1" *ngFor="let fuel of fuels">
                   <input type="checkbox" class="btn-check" id="{{fuel.fuelName}}Btn" autocomplete="off">
@@ -56,7 +56,7 @@
             </div>
             <hr />
             <div class="col-12">
-              <h5>Cena Za Dzień</h5>
+              <p class="h5">Cena Za Dzień</p>
               <div class="row">
                 <div class="col-12 m-1" *ngFor="let priceRange of priceRanges">
                   <input type="checkbox" class="btn-check" id="Range{{priceRange.priceRangeId}}Btn" autocomplete="off">
@@ -66,7 +66,7 @@
             </div>
             <hr />
             <div class="col-12">
-              <h5>Typ Nadwozia</h5>
+              <p class="h5">Typ Nadwozia</p>
               <div class="row">
                 <div class="col-12 m-1" *ngFor="let carbody of carbodies">
                   <input type="checkbox" class="btn-check" id="{{carbody.carbodyName}}" autocomplete="off">
@@ -76,7 +76,7 @@
             </div>
             <hr />
             <div class="col-12">
-              <h5>Skrzynia Biegów</h5>
+              <p class="h5">Skrzynia Biegów</p>
               <div class="row">
                 <div class="col-12 m-1" *ngFor="let transmission of transmissionTypes">
                   <input type="checkbox" class="btn-check" id="{{transmission.typeName}}" autocomplete="off">
@@ -93,7 +93,7 @@
                 <img [src]="mainBanner" class="w-100" alt="main banner" />
               </div>
           </div>
-          <div class="row" *ngFor="let vehicle of data">
+          <div class="row" *ngFor="let vehicle of vehicles">
             <div class="col-12 card mb-3">
               <div class="row">
                 <!--<div class="col-3">

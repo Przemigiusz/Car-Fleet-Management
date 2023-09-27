@@ -1,7 +1,3 @@
-import { EquipmentElement } from "./EquipmentElement";
-import { Fuel } from "./Fuel";
-import { VehicleImage } from "./VehicleImage";
-
 export class Vehicle {
   vehicleId: number;
 
@@ -9,16 +5,14 @@ export class Vehicle {
 
   modelId: number;
 
-  fuels: Fuel[] = []
-
   carbodyId: number;
 
   transmissionTypeId: number;
 
   yearOfProductionId: number;
 
-  vehicleImages: VehicleImage[] = [];
-  equipment: EquipmentElement[] = [];
+  equipmentIds: number[] = []
+  fuelsIds: number[] = [];
 
   mileage: string;
 

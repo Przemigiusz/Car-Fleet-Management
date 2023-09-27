@@ -2,13 +2,6 @@ ol, ul {
   list-style: none;
 }
 
-footer {
-  font-family: 'Roboto', sans-serif;
-  background-color: var(--bs-body-bg);
-  padding-top: 1rem;
-  margin-top: 1rem;
-}
-
 a.nav-link {
   margin-top: 0.1rem;
   font-weight: 400;

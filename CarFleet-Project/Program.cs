@@ -1,5 +1,6 @@
 using CarFleet_Project.Models.Contexts;
 using CarFleet_Project.Models.Interfaces;
+using CarFleet_Project.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -15,6 +16,8 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddDbContext<ICarFleetContext, CarFleetContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection")));
+
+builder.Services.AddScoped(typeof(ToDbService));
 
 var app = builder.Build();
 

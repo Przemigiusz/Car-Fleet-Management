@@ -6,6 +6,6 @@
         public string modelName { get; set; } = "";
         public int brandId { get; set; }
         public virtual Brand brand { get; set; } = null!;
-        public virtual List<Vehicle> vehicles { get; set; } = null!;
+        public virtual List<Vehicle> vehicles { get; } = new();
     }
 }

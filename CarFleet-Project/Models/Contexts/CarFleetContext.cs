@@ -1,8 +1,7 @@
 ﻿using CarFleet_Project.Models.Interfaces;
 using CarFleet_Project.Models.Tables;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using System.IO;
 
 namespace CarFleet_Project.Models.Contexts
 {
@@ -60,8 +59,8 @@ namespace CarFleet_Project.Models.Contexts
         public IQueryable<VehicleImage> GetVehicleImages(int vehicleId) {
             return VehicleImages.Where(vi => vi.vehicle.vehicleId == vehicleId);
         }
-        public IQueryable<Model> GetModels(int brandId) {
-            return Models.Where(m => m.brand.brandId == brandId);
+        public IQueryable<Model> GetAllModels() {
+            return Models;
         }
         public IQueryable<Brand> GetAllBrands() {
             return Brands;
@@ -69,6 +68,36 @@ namespace CarFleet_Project.Models.Contexts
         public IQueryable<YearOfProduction> GetAllYears()
         {
             return Years;
+        }
+
+        public ValueTask<Brand?> GetSpecificBrand(int brandId)
+        {
+            return Brands.FindAsync(brandId);
+        }
+
+        public ValueTask<Model?> GetSpecificModel(int modelId)
+        {
+            return Models.FindAsync(modelId);
+        }
+        public ValueTask<Carbody?> GetSpecificCarbody(int carbodyId)
+        {
+            return Carbodies.FindAsync(carbodyId);
+        }
+        public ValueTask<YearOfProduction?> GetSpecificYear(int yearId)
+        {
+            return Years.FindAsync(yearId);
+        }
+        public ValueTask<TransmissionType?> GetSpecificTransmissionType(int transmissionTypeId)
+        {
+            return TransmissionTypes.FindAsync(transmissionTypeId);
+        }
+        public async ValueTask<List<Fuel>> GetSpecificFuels(List<int> fuelIds)
+        {
+            return await Fuels.Where(fuel => fuelIds.Contains(fuel.fuelId)).ToListAsync();
+        }
+        public async ValueTask<List<EquipmentElement>> GetSpecificEquipment(List<int> equipmentIds)
+        {
+            return await EquipmentElements.Where(eq => equipmentIds.Contains(eq.elementId)).ToListAsync();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

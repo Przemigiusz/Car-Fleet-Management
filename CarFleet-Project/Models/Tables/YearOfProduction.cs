@@ -4,6 +4,6 @@
     {
         public int yearId { get; set; }
         public string year { get; set; } = "";
-        public virtual List<Vehicle> vehicles { get; set; } = new();
+        public virtual List<Vehicle> vehicles { get; } = new();
     }
 }

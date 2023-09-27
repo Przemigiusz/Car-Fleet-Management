@@ -48,8 +48,8 @@ public class FiltersController : ControllerBase
     {
         try
         {
-            var pricesPerDay = _ctx.GetAllPriceRanges();
-            return Ok(pricesPerDay);
+            var priceRanges = _ctx.GetAllPriceRanges();
+            return Ok(priceRanges);
         }
         catch (Exception)
         {
@@ -86,12 +86,12 @@ public class FiltersController : ControllerBase
     }
 
     [HttpGet("get-models")]
-    public IActionResult GetModels(int brandId)
+    public IActionResult GetModels()
     {
         try
         {
-            var transmissionTypes = _ctx.GetModels(brandId);
-            return Ok(transmissionTypes);
+            var models = _ctx.GetAllModels();
+            return Ok(models);
         }
         catch (Exception)
         {
@@ -104,8 +104,8 @@ public class FiltersController : ControllerBase
     {
         try
         {
-            var transmissionTypes = _ctx.GetAllBrands();
-            return Ok(transmissionTypes);
+            var brands = _ctx.GetAllBrands();
+            return Ok(brands);
         }
         catch (Exception)
         {

@@ -8,8 +8,8 @@ import { SortingType } from '../../models/SortingType';
 import { Carbody } from '../../models/Carbody';
 import { Fuel } from '../../models/Fuel';
 import { TransmissionType } from '../../models/TransmissionType';
-import { ReplaySubject, takeUntil } from 'rxjs';
-import { DomSanitizer } from '@angular/platform-browser';
+import { ReplaySubject, forkJoin, map, takeUntil } from 'rxjs';
+import { LoadingSpinnerService } from '../../services/loading-spinner.service';
 
 @Component({
   selector: 'fleet',
@@ -19,7 +19,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class FleetComponent implements OnInit, OnDestroy {
   public mainBanner = 'assets/images/dope-cars-banner.png';
 
-  public data: Vehicle[] = [];
+  public vehicles: Vehicle[] = [];
   public priceRanges: PriceRange[] = [];
   public sortingTypes: SortingType[] = [];
   public carbodies: Carbody[] = [];
@@ -31,29 +31,58 @@ export class FleetComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
+    this.loadingSpinnerService.changeSpinnerState(false);
+    console.log("ngOnDestroy - fleet");
   }
 
-  constructor(private vehiclesService: VehiclesService, private getFiltersService: FiltersService, private sanitizer: DomSanitizer)
+  constructor(private vehiclesService: VehiclesService, private getFiltersService: FiltersService, private loadingSpinnerService: LoadingSpinnerService)
   {}
 
   ngOnInit() {
-    this.vehiclesService.getVehicles()
+    forkJoin([
+      this.getVehicles(),
+      this.getPriceRanges(),
+      this.getSortingTypes(),
+      this.getTransmissionTypes(),
+      this.getCarbodies(),
+      this.getFuels(),
+      this.getTransmissionTypes()
+    ])
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe({ next: r => { this.data = r; }, error: err => { console.log("error", err); } }); 
-    this.getFiltersService.getPriceRanges()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({ next: r => { this.priceRanges = r; }, error: err => { console.log("error", err); } });
-    this.getFiltersService.getSortingTypes()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({ next: r => { this.sortingTypes = r; }, error: err => { console.log("error", err); } });
-    this.getFiltersService.getCarbodies()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({ next: r => { this.carbodies = r; }, error: err => { console.log("error", err); } });
-    this.getFiltersService.getFuels()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({ next: r => { this.fuels = r; }, error: err => { console.log("error", err); } });
-    this.getFiltersService.getTransmissionTypes()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({ next: r => { this.transmissionTypes = r; }, error: err => { console.log("error", err); } });
+      .subscribe(
+        {
+          next: () => {
+            this.loadingSpinnerService.changeSpinnerState(true);
+          },
+          error: (err) => { console.log(err) },
+        }
+      )
+  }
+  private getVehicles() {
+    return this.vehiclesService.getVehicles()
+      .pipe(map(r => this.vehicles = r));
+  }
+
+  private getPriceRanges() {
+    return this.getFiltersService.getPriceRanges()
+      .pipe(map(r => this.priceRanges = r));
+  }
+  private getSortingTypes() {
+    return this.getFiltersService.getSortingTypes()
+      .pipe(map(r => this.sortingTypes = r));
+  }
+  private getCarbodies() {
+    return this.getFiltersService.getCarbodies()
+      .pipe(map(r => this.carbodies = r));
+  }
+  private getFuels() {
+    return this.getFiltersService.getFuels()
+      .pipe(map(r => this.fuels = r));
+  }
+  private getTransmissionTypes() {
+    return this.getFiltersService.getTransmissionTypes()
+      .pipe(map(r => this.transmissionTypes = r));
   }
 }
+
+

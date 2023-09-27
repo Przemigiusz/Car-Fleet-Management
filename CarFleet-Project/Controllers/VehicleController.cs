@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using CarFleet_Project.Models.Interfaces;
 using CarFleet_Project.Models.Tables;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.PixelFormats;
-using System.IO;
 using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
+using System.Data;
+using CarFleet_Project.Services;
 
 namespace CarFleet_Project.Controllers;
 
@@ -16,63 +15,99 @@ namespace CarFleet_Project.Controllers;
 public class FilterController : ControllerBase
 {
     ICarFleetContext _ctx;
+    ToDbService toDbService;
 
     private int pageSize = 10;
     private int vehicleId = 0;
-    public FilterController(ICarFleetContext ctx)
+    public FilterController(ICarFleetContext ctx, ToDbService toDbService)
     {
-        _ctx = ctx;
+        this._ctx = ctx;
+        this.toDbService = toDbService;
     }
 
-    //[HttpPost("post-vehicle")]
-    //public async Task<IActionResult> PostVehicle()
-    //{
-    //    var form = await Request.ReadFormAsync();
-    //    var vehicleJson = form["vehicle"];
-    //    Vehicle vehicle = JsonSerializer.Deserialize<Vehicle>(vehicleJson!)!;
-
-    //    var file = form.Files.GetFile("file");
-    //    var fileStream = file!.OpenReadStream();
-    //    byte[] bytes = new byte[file.Length];
-    //    fileStream.Read(bytes, 0, (int)file.Length);
-    //    Image image = Image.Load(bytes);
-    //    int width = 320;
-    //    int height = 146;
-    //    image.Mutate(x => x.Resize(width, height));
-
-
-    //    using var output = new MemoryStream();
-    //    image.Save(output, new JpegEncoder());
-
-    //    byte[] compressedImage = output.ToArray();
-    //    vehicle.vehicleImages.Add(compressedImage);
-
-    //    _ctx.Vehicles.Update(vehicle);
-    //    try
-    //    {
-    //        var id = _ctx.SaveChanges();
-    //        vehicle.vehicleId = id;
-    //    }
-    //    catch (Exception)
-    //    {
-    //        return BadRequest("There is a problem with updating db with a new car");
-    //    }
-    //    return Ok(vehicle);
-    //}
-
-    [HttpPost("post-image")]
-    public IActionResult PostImage([FromBody] VehicleImage vehicleImage)
+    [HttpPost("post-vehicle")]
+    public async Task<IActionResult> PostVehicle()
     {
         try
         {
-            var id = _ctx.SaveChanges();
-            vehicleImage.imageId = id;
+            string requestBody;
+            using (StreamReader reader = new StreamReader(Request.Body)) {
+                requestBody = await reader.ReadToEndAsync();
+            }
+            Vehicle newVehicle = await this.toDbService.VehicleConversion(requestBody);
+            _ctx.Vehicles.Update(newVehicle);
+            _ctx.SaveChanges();
+            return Ok(newVehicle.vehicleId);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return BadRequest("There is a problem with updating db with a new image");
+            return BadRequest("There is a problem with adding a new vehicle to the database" + ex);
         }
-        return Ok(vehicleImage);
+    }
+
+
+    [HttpPost("post-image")]
+    public IActionResult PostImage([FromForm] List<IFormFile> vehicleImages, [FromForm] int vehicleId)
+    {
+        try
+        {
+            if (vehicleImages != null && vehicleImages.Any()) {
+                foreach (var image in vehicleImages) {
+                    if (image.Length > 0) {
+                        var vehicleImage = new VehicleImage();
+                        vehicleImage.imageName = image.Name;
+                        vehicleImage.imageType = image.ContentType;
+                        var contentTypeParts = image.ContentType.Split("/");
+                        if (contentTypeParts.Length == 2)
+                        {
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                image.CopyTo(memoryStream);
+                                var processedImg = Image.Load(memoryStream.ToArray());
+                                var newWidth = 284;
+                                var newHeight = 208;
+                                processedImg.Mutate(x => x.Resize(new ResizeOptions
+                                {
+                                    Size = new Size(newWidth, newHeight),
+                                    Mode = ResizeMode.Max // Dostosuj tryb skalowania do Twoich potrzeb
+                                }));
+
+                                IImageEncoder encoder;
+                                switch (vehicleImage.imageType)
+                                {
+                                    case "jpg":
+                                    case "jpeg":
+                                        encoder = new JpegEncoder();
+                                        break;
+                                    case "png":
+                                        encoder = new PngEncoder();
+                                        break;
+                                    default:
+                                        encoder = new JpegEncoder();
+                                        break;
+                                }
+                                memoryStream.Seek(0, SeekOrigin.Begin);
+                                processedImg.Save(memoryStream, encoder);
+                                vehicleImage.image = memoryStream.ToArray();
+                            }
+                            vehicleImage.vehicleId = vehicleId;
+                            _ctx.VehicleImages.Update(vehicleImage);
+                            _ctx.SaveChanges();
+                        }
+                        else {
+                            Console.WriteLine("Nieobsługiwany podtyp!");
+                        }
+
+                        
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            return BadRequest("There is a problem with adding new images to the database" + ex) ;
+        }
+        return Ok("Vehicle images has been added successfully");
     }
 
     [HttpGet("get-vehicles-images")]
@@ -84,9 +119,9 @@ public class FilterController : ControllerBase
 
             return Ok(vehicles);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return BadRequest("There is a problem with getting images info from db");
+            return BadRequest("There is a problem with getting images info from db" + ex);
         }
     }
 
@@ -104,9 +139,9 @@ public class FilterController : ControllerBase
 
             return Ok(vehicles);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return BadRequest("There is a problem with getting car info from db");
+            return BadRequest("There is a problem with getting car info from db" + ex);
         }
     }
 }

@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @angular-eslint/component-selector */
 /* eslint-disable no-debugger */
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { VehiclesService } from '../../services/vehicles.service';
 import { EquipmentService } from '../../services/equipment.service';
 import { FiltersService } from '../../services/filters.service';
 import { LoadingSpinnerService } from '../../services/loading-spinner.service';
-import { AddCarInterface } from '../../interfaces/add-car.interface';
 import { Vehicle } from '../../models/Vehicle';
 import { EquipmentElement } from '../../models/EquipmentElement';
 import { FormBuilder, FormGroup, Validators, ValidationErrors, FormControl } from '@angular/forms';
@@ -18,8 +18,6 @@ import { TransmissionType } from '../../models/TransmissionType';
 import { OperationalEquipment } from '../../interfaces/operational-equipment.interface';
 import { YearOfProduction } from '../../models/YearOfProduction';
 import { createAtLeastOneValidator } from '../../custom-validators/at-least-one';
-import { createIsAnOptionValidator } from '../../custom-validators/is-an-option';
-import { createIsBrandChosenValidator } from '../../custom-validators/is-brand-chosen';
 
 @Component({
   selector: 'new-car',
@@ -45,30 +43,106 @@ export class NewCarComponent implements OnInit, OnDestroy {
 
   private onDestroy$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
-  public optionsHidden = true;
+  public fuelOptionsHidden = true;
+  public brandOptionsHidden = true;
+  public modelOptionsHidden = true;
+
+  public specificModels: Model[] = [];
 
   public areFuelsLoaded = false;
+  public areBrandsLoaded = false;
 
   public submitClicked = false;
 
-  changeStateOfModels() {
-    console.log("CHANGE!!!!");
+  public brandSearchTerm = "";
+  public modelSearchTerm = "";
+
+  @HostListener('document:click', ['$event'])
+  onClickFuels(event: MouseEvent) {
+    const targetElement = event.target as HTMLElement;
+
+    if (!targetElement.closest('.customFuelSelectAlias')) {
+      this.fuelOptionsHidden = true;
+    }
+    if (!targetElement.closest('.customBrandSelectAlias')) {
+      this.brandOptionsHidden = true;
+    }
+    if (!targetElement.closest('.customModelSelectAlias')) {
+      this.modelOptionsHidden = true;
+    } 
+  }
+
+  updateChoice(dataType: string, choice: string) {
+    if (this.checkOrUncheck(dataType, choice)) {
+      if (dataType === 'brand') {
+        const choosenBrandId = this.brands.find(brand => brand.brandName === choice)!.brandId!;
+        this.specificModels = this.models.filter(model => model.brandId === choosenBrandId);
+        this.brandSearchTerm = choice;
+        this.brandOptionsHidden = true;
+      } else {
+        this.modelSearchTerm = choice;
+        this.modelOptionsHidden = true;
+      }
+    } else {
+        (dataType === "brand") ? (this.brandSearchTerm = "", this.specificModels = []) : this.modelSearchTerm = "";
+    }
+  }
+
+  checkOrUncheck(dataType: string, choice: string) {
+    let control;
+
+    if (dataType === "brand") {
+      control = this.addCarForm.get("brandOptions")!.get(choice)!; 
+    } else {
+      control = this.addCarForm.get("modelOptions")!.get(choice)!;
+    }
+
+    if (control.value) {
+      return true; //zostala teraz zaznaczona
+    }
+    return false; //zostala teraz odznaczona
+  }
+
+  filterBrands() {
+      if (this.brandSearchTerm === "") {
+        return this.brands;
+      }
+      return this.brands.filter(brand => brand.brandName.toLowerCase().startsWith(this.brandSearchTerm.toLowerCase()));
+  }
+
+  filterModels() {
+    if (this.modelSearchTerm === "") {
+      return this.specificModels;
+    }
+    return this.specificModels.filter(model => model.modelName.toLowerCase().startsWith(this.modelSearchTerm.toLowerCase()));
   }
 
   onSubmit() {
     this.submitClicked = true;
   }
 
-  displaySelectOptions() {
-    (this.optionsHidden) ? this.optionsHidden = false : this.optionsHidden = true;
+  displayFuelSelectOptions() {
+    (this.fuelOptionsHidden) ? this.fuelOptionsHidden = false : this.fuelOptionsHidden = true;
+  }
+
+  displayBrandSelectOptions() {
+    (this.brandOptionsHidden) ? this.brandOptionsHidden = false : this.brandOptionsHidden = true;
+  }
+
+  displayModelSelectOptions() {
+    (this.modelOptionsHidden) ? this.modelOptionsHidden = false : this.modelOptionsHidden = true;
   }
 
   changeFuelsState() {
     this.areFuelsLoaded = true;
   }
 
+  changeBrandsState() {
+    this.areBrandsLoaded = true;
+  }
+
   updateChoosenFuels(formControlName: string) {
-    if (this.addCarForm.get('fuelsOptions')!.get(formControlName)!.value) {
+    if (this.addCarForm.get('fuelOptions')!.get(formControlName)!.value) {
       this.chosenFuels.push(formControlName);
     } else {
       const index = this.chosenFuels.indexOf(formControlName, 0);
@@ -103,41 +177,65 @@ export class NewCarComponent implements OnInit, OnDestroy {
       this.getCarbodies(),
       this.getFuels(),
       this.getTransmissionTypes(),
-      this.getModels(),
       this.getBrands(),
+      this.getModels(),
       this.getYears()
     ])
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
          {
-          next: r => {
+          next: () => {
              this.loadingSpinnerService.changeSpinnerState(true);
              this.initFuelOptions();
+             this.initBrandOptions();
+             this.initModelOptions();
              this.changeFuelsState();
+             this.changeBrandsState();
+             for (const el of this.equipment) {
+               this.operationalEquipment.push({ eqElement: el, isChecked: false });
+             }
           },
-           error: err => { console.log("error", err); },
+          error: (err) => { console.log(err) },
          }
       )
   }
 
   initForm() {
     this.addCarForm = this.formBuilder.group({
-      brand: ['', [Validators.required, createIsAnOptionValidator(this.brands)]],
-      model: [{value: '', disabled: true}, [Validators.required, createIsAnOptionValidator(this.models)]],
-      yearOfProduction: ['', [Validators.required, createIsAnOptionValidator(this.years)]],
-      mileage: ['', Validators.required],
-      carbodyType: ['', [Validators.required, createIsAnOptionValidator(this.carbodies)]],
-      transmissionType: ['', [Validators.required, createIsAnOptionValidator(this.transmissionTypes)]],
+      yearOfProduction: ['', Validators.required],
+      mileage: ['', [Validators.required, Validators.pattern("^[1-9]\\d*$")]],
+      carbodyType: ['', Validators.required],
+      transmissionType: ['', Validators.required],
       vehicleImage: ['', Validators.required]
     });
-    this.addCarForm.addControl('fuelsOptions', new FormGroup({}));
-    this.addCarForm.get('fuelsOptions')!.addValidators(createAtLeastOneValidator());
+    this.addCarForm.addControl('fuelOptions', new FormGroup({}));
+    this.addCarForm.get('fuelOptions')!.addValidators(createAtLeastOneValidator());
+
+    this.addCarForm.addControl('brandOptions', new FormGroup({}));
+    this.addCarForm.get('brandOptions')!.addValidators(createAtLeastOneValidator());
+
+    this.addCarForm.addControl('modelOptions', new FormGroup({}));
+    this.addCarForm.get('modelOptions')!.addValidators(createAtLeastOneValidator());
   }
 
   initFuelOptions() {
-    const fuelsTemp: FormGroup = this.addCarForm.controls.fuelsOptions as FormGroup;
+    const fuelsTemp: FormGroup = this.addCarForm.controls.fuelOptions as FormGroup;
     for (const fuel of this.fuels) {
       fuelsTemp.addControl(fuel.fuelName, new FormControl(false));
+    }
+  }
+
+  initBrandOptions() {
+    const brandsTemp: FormGroup = this.addCarForm.controls.brandOptions as FormGroup;
+    for (const brand of this.brands) {
+      brandsTemp.addControl(brand.brandName, new FormControl(false));
+    }
+  }
+
+  initModelOptions() {
+    const modelsTemp: FormGroup = this.addCarForm.controls.modelOptions as FormGroup;
+    for (const model of this.models) {
+      modelsTemp.addControl(model.modelName, new FormControl(false));
     }
   }
  
@@ -153,38 +251,45 @@ export class NewCarComponent implements OnInit, OnDestroy {
 
   submitForm() {
     if (this.addCarForm.valid) {
-      const formData: AddCarInterface = this.addCarForm.value;
+      const formData = this.addCarForm.value;
       const newVehicle: Vehicle = new Vehicle();
 
-      newVehicle.brandId = this.brands.find(brand => brand.brandName === formData.brand)!.brandId!;
-      newVehicle.modelId = this.models.find(model => model.modelName === formData.model)!.modelId!;
+      newVehicle.brandId = this.brands.find((brand) => brand.brandName === this.brandSearchTerm)!.brandId;
+      newVehicle.modelId = this.models.find((model) => model.modelName === this.modelSearchTerm)!.modelId;
 
       newVehicle.yearOfProductionId = this.years.find(year => year.year === formData.yearOfProduction)!.yearId!;
+      newVehicle.transmissionTypeId = this.transmissionTypes.find(tt => tt.typeName === formData.transmissionType)!.typeId!;
+
       newVehicle.mileage = formData.mileage;
 
-      formData.fuels.forEach(f1 => {
-        const matchingFuel = this.fuels.find(f2 => f2.fuelName === f1);
-        if (matchingFuel) {
-          newVehicle.fuels.push(matchingFuel);
-        }
-      })
+      for (const fuel of this.chosenFuels) {
+        const selectedFuelId = this.fuels.find((f) => f.fuelName === fuel)!.fuelId;
+        newVehicle.fuelsIds.push(selectedFuelId);
+      }
 
-      newVehicle.carbodyId = this.carbodies.find(c => c.carbodyName === formData.carBodyType)!.carbodyId!;
+      newVehicle.carbodyId = this.carbodies.find((c) => c.carbodyName === formData.carbodyType)!.carbodyId!;
 
       for (const opElement of this.operationalEquipment) {
         if (opElement.isChecked === true) {
-          const matchingEquipmentElement = this.equipment.find(ee => ee.elementId === opElement.eqElement.elementId);
-          if (matchingEquipmentElement) {
-            newVehicle.equipment.push(matchingEquipmentElement);
-          }
+          const matchingEquipmentElementId = this.equipment.find(ee => ee.elementId === opElement.eqElement.elementId)!.elementId;
+          newVehicle.equipmentIds.push(matchingEquipmentElementId);
         }
       }
+
       this.addCarService.addVehicle(newVehicle)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(
           {
-            next: r => { debugger },
-            error: err => { console.log("błąd"), console.log(err) }
+            next: (r) => {
+              this.addCarService.addVehicleImages(r, this.vehicleImages)
+              .pipe(takeUntil(this.onDestroy$))
+              .subscribe(
+                {
+                  next: (r) => { console.log(r) },
+                  error: (err) => {console.log(err) }
+                });
+            },
+            error: (err) => { console.log(err) }
           });
     }
     else {
@@ -194,7 +299,7 @@ export class NewCarComponent implements OnInit, OnDestroy {
   }
 
   getFormValidationErrors() {
-    Object.keys(this.addCarForm.controls).forEach((key,value) => {
+    Object.keys(this.addCarForm.controls).forEach((key) => {
       const controlErrors: ValidationErrors = this.addCarForm.get(key)!.errors!;
       Object.keys(controlErrors || {}).forEach(keyError => {
         console.log(`Key control: ${key}, keyError: ${keyError}, errValue: ${controlErrors[keyError]}`);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Vehicle } from '../models/Vehicle';
 import { VehicleImage } from '../models/VehicleImage';
 import { Observable } from 'rxjs';
@@ -10,13 +10,19 @@ export class VehiclesService {
 
   constructor(private http: HttpClient) { }
 
-  addVehicle(vehicle: Vehicle): Observable<Vehicle> {
-    return this.http.post<Vehicle>(`${this.baseUrl}/post-vehicle`, vehicle);
+  addVehicle(vehicle: Vehicle): Observable<number> {
+    return this.http.post<number>(`${this.baseUrl}/post-vehicle`, vehicle);
   }
 
-  addVehicleImages(vehicleImages: VehicleImage[]): Observable<VehicleImage[]> {
-    return this.http.post<VehicleImage[]>(`${this.baseUrl}/post-image`, vehicleImages);
+  addVehicleImages(vehicleId: number, vehicleImages: File[]): Observable<string> {
+    const formData = new FormData();
+    formData.append("vehicleId", vehicleId.toString());
+    for (const image of vehicleImages) {
+      formData.append('vehicleImages', image);
+    }
+    return this.http.post<string>(`${this.baseUrl}/post-image`, formData, { responseType: 'text' as 'json' });
   }
+
 
   getVehiclesImages(): Observable<VehicleImage[]> {
     return this.http.get<VehicleImage[]>(`${this.baseUrl}/get-vehicles-images`);

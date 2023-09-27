@@ -1,8 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CarFleet_Project.Models.Tables
+﻿namespace CarFleet_Project.Models.Tables
 {
     public class VehicleImage
     {

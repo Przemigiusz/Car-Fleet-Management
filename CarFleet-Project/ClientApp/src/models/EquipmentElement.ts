@@ -1,9 +1,6 @@
-import { Vehicle } from "./Vehicle";
-
 export class EquipmentElement {
   elementId: number;
   elementName: string;
-  vehicles: Vehicle[] = [];
 
   constructor() {
     this.elementId = 0;

@@ -7,7 +7,8 @@ import { AppComponent } from './app.component';
 import { FooterMenuComponent } from './footer-menu/footer-menu.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 
-import { LoadingSpinnerModule } from './loading-spinner/loading-spinner.module'
+import { LoadingSpinnerModule } from './loading-spinner/loading-spinner.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { LoadingSpinnerModule } from './loading-spinner/loading-spinner.module'
         path: 'new-car', loadChildren: () => import('./new-car/new-car.module')
           .then(m => m.NewCarModule) },
     ]),
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
