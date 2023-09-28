@@ -141,15 +141,23 @@ export class NewCarComponent implements OnInit, OnDestroy {
     this.areBrandsLoaded = true;
   }
 
-  updateChoosenFuels(formControlName: string) {
-    if (this.addCarForm.get('fuelOptions')!.get(formControlName)!.value) {
-      this.chosenFuels.push(formControlName);
+  updateChoosenFuels(choice: string) {
+    if (this.checkOrUncheckFuels(choice)) {
+      this.chosenFuels.push(choice);
     } else {
-      const index = this.chosenFuels.indexOf(formControlName, 0);
+      const index = this.chosenFuels.indexOf(choice, 0);
       if (index > -1) {
         this.chosenFuels.splice(index, 1);
       }
     }
+  }
+
+  checkOrUncheckFuels(choice: string) {
+    const control = this.addCarForm.get("fuelOptions")!.get(choice)!;
+    if (control.value) {
+      return true;
+    }
+    return false;
   }
 
   updateValue(opElement: OperationalEquipment) {

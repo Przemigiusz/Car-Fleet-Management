@@ -19,7 +19,7 @@
               <div class="row">
                 <div class="col">
                   <p class="h5">Sortuj</p>
-                  <select class="form-select" aria-label="Default select example">
+                  <select class="form-select">
                     <option selected>Wybierz typ</option>
                     <option *ngFor="let sort of sortingTypes; let i = index" [value]="i+1">{{sort.typeName}}</option>
                   </select>
@@ -27,20 +27,28 @@
               </div>
             </div>
             <hr />
-            <div class="col-12">
+            <div class="col-12" [formGroup]="customSelects">
               <div class="row">
                 <p class="h5">Marka/Model</p>
-                <div class="col-12">
-                  <label for="BrandDataList" class="form-label">Brand</label>
-                  <input class="form-control" list="BrandDatalistOptions" id="BrandDataList" placeholder="Brand">
-                  <datalist id="BrandDatalistOptions">
-                  </datalist>
+                <div class="col-12 mb-3 position-relative customBrandSelectAlias customBrandSelect">
+                  <label for="customBrandSelect" class="form-label">Marka pojazdu</label>
+                  <input [(ngModel)]="brandSearchTerm" [ngModelOptions]="{ standalone: true }" type="text" class="form-control" placeholder="Marka pojazdu" (click)="displayBrandSelectOptions()">
+                  <div class="options position-absolute w-auto" formGroupName="brandOptions" *ngIf="areBrandsLoaded && !brandOptionsHidden">
+                    <div class="option d-flex" *ngFor="let brand of filterBrands()">
+                      <input type="checkbox" id="{{brand.brandName}}" name="{{brand.brandName}}" formControlName="{{brand.brandName}}" (change)="updateChoosenBrandsOrModels('brand', brand.brandName)" />
+                      <label class="label-box flex-grow-1" for="{{brand.brandName}}">{{brand.brandName}}</label>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-12">
-                  <label for="ModelDataList" class="form-label">Model</label>
-                  <input class="form-control" list="ModelDatalistOptions" id="ModelDataList" placeholder="Model">
-                  <datalist id="ModelDatalistOptions">
-                  </datalist>
+                <div class="col-12 mb-3 position-relative customModelSelectAlias customModelSelect">
+                  <label for="customModelSelect" class="form-label">Marka pojazdu</label>
+                  <input [(ngModel)]="modelSearchTerm" [ngModelOptions]="{ standalone: true }" type="text" class="form-control" placeholder="Model pojazdu" (click)="displayModelSelectOptions()">
+                  <div class="options position-absolute w-auto" formGroupName="modelOptions" *ngIf="!modelOptionsHidden">
+                    <div class="option d-flex" *ngFor="let model of filterModels()">
+                      <input type="checkbox" id="{{model.modelName}}" name="{{model.modelName}}" formControlName="{{model.modelName}}" (change)="updateChoosenBrandsOrModels('model', model.modelName)" />
+                      <label class="label-box flex-grow-1" for="{{model.modelName}}">{{model.modelName}}</label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
